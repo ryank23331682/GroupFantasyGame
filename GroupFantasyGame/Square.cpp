@@ -1,4 +1,5 @@
 #include "Square.h"
 
-Square::Square(){}  // Default constructor
-
+Square::Square() {
+	enemy = Enemy(10, 20);
+}

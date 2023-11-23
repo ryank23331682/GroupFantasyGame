@@ -18,6 +18,20 @@ int main()
     cout << "Enter in the columns of the board\n";
     cin >> COLUMN;
     //Board gameBoard = Board(ROW, COLUMN);
+    Square square = Square();
+    vector<vector<Square>> game_board(ROW, vector<Square>(COLUMN, square));
+
+    // Use nested for loops to iterate over the 2D array
+    for (int i = 0; i < ROW; ++i)
+    {
+        for (int j = 0; j < COLUMN; ++j)
+        {
+            Square square = Square();
+            game_board[i][j] = square; // Access the enemy 
+            cout << game_board[i][j].enemy.attack; // Access the enemy 
+            cout << game_board[i][j].enemy.defence; // Access the enemy 
+        }
+    }
 
     char userInput;
 
