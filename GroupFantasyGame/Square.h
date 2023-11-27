@@ -7,6 +7,6 @@ public:
 	Enemy enemy;
 	Item item;
 	Square();
-	Item();
+
 };
 
