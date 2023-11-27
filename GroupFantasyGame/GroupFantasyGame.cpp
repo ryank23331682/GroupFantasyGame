@@ -7,8 +7,12 @@
 #include "Board.h"
 using namespace std;
 
+void InitialiseGameBoard(vector<vector<Square>> game_board);
+void MakeMove(vector<vector<Square>> game_board, char direction);
 int ROW;
 int COLUMN;
+int CURRENTROW = 0;
+int CURRENTCOLUMN = 0;
 int main()
 {
 
@@ -17,50 +21,23 @@ int main()
     cin >> ROW;
     cout << "Enter in the columns of the board\n";
     cin >> COLUMN;
-    //Board gameBoard = Board(ROW, COLUMN);
     Square square = Square();
     vector<vector<Square>> game_board(ROW, vector<Square>(COLUMN, square));
-
-    // Use nested for loops to iterate over the 2D array
-    for (int i = 0; i < ROW; ++i)
-    {
-        for (int j = 0; j < COLUMN; ++j)
-        {
-            Square square = Square();
-            game_board[i][j] = square; // Access the enemy 
-            cout << game_board[i][j].enemy.attack; // Access the enemy 
-            cout << game_board[i][j].enemy.defence; // Access the enemy 
-        }
-    }
+    InitialiseGameBoard(game_board);
 
     char userInput;
 
-
-
     do {
-        cout << "Enter a command (N, W, S, E) or (A)ttack, (P)ick up, (D)rop, (L)ook, (I)nventroy, (Ex)it ";
+        cout << "Current Position = (" << CURRENTROW << ", " << CURRENTCOLUMN << ")\n";
+        cout << "Enter a command (N, W, S, E) or (A)ttack, (P)ick up, (D)rop, (L)ook, (I)nventroy, (Ex)it\n";
         cin >> userInput;
         switch (userInput) {
         case 'N':
-            // Code for command 'a'
-            std::cout << "Command 'a' selected." << std::endl;
-            break;
-
         case 'S':
-            // Code for command 'b'
-            std::cout << "Command 'b' selected." << std::endl;
-            break;
-
         case 'W':
-            // Code for command 'c'
-            std::cout << "Command 'c' selected." << std::endl;
-            break;
-
         case 'E':
-            // Code for command 'q'
-            std::cout << "Exiting the program." << std::endl;
+            MakeMove(game_board, userInput);
             break;
-
         case 'A':
             // Code for command 'q'
             std::cout << "Exiting the program." << std::endl;
@@ -93,8 +70,64 @@ int main()
     } while (userInput != 'Ex');
 
     return EXIT_SUCCESS;
+}
+
+static void InitialiseGameBoard(vector<vector<Square>> game_board) {
+
+    for (int i = 0; i < ROW; ++i)
+    {
+        for (int j = 0; j < COLUMN; ++j)
+        {
+            Square square = Square();
+            game_board[i][j] = square;
+        }
     }
+}
 
-    
+static void MakeMove(vector<vector<Square>> game_board, char direction) {
+    switch (direction) {
+    case 'N':
+        if (CURRENTROW == 0)
+        {
+            cout << "Cannot Move north from this position\n";
+        }
+        else
+        {
+            CURRENTROW--;
+        }
+        break;
 
+    case 'S':
+        if (CURRENTROW == ROW)
+        {
+            cout << "Cannot Move south from this position\n";
+        }
+        else
+        {
+            CURRENTROW++;
+        }
+        break;
 
+    case 'W':
+        if (CURRENTCOLUMN == 0)
+        {
+            cout << "Cannot Move West from this position\n";
+        }
+        else
+        {
+            CURRENTCOLUMN--;
+        }
+        break;
+
+    case 'E':
+        if (CURRENTCOLUMN == COLUMN)
+        {
+            cout << "Cannot Move East from this position\n";
+        }
+        else
+        {
+            CURRENTCOLUMN++;
+        }
+        break;
+    }
+}
