@@ -3,12 +3,14 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 #include "Square.h"
 #include "Board.h"
 using namespace std;
 
-void InitialiseGameBoard(vector<vector<Square>> game_board);
-void MakeMove(vector<vector<Square>> game_board, char direction);
+void InitialiseGameBoard(vector<vector<Square>>& game_board);
+void MakeMove(vector<vector<Square>>& game_board, char direction);
+void SquareInformation(vector<vector<Square>>& game_board);
 int ROW;
 int COLUMN;
 int CURRENTROW = 0;
@@ -21,8 +23,9 @@ int main()
 	cin >> ROW;
 	cout << "Enter in the columns of the board\n";
 	cin >> COLUMN;
-	Square square = Square();
-	vector<vector<Square>> game_board(ROW, vector<Square>(COLUMN, square));
+
+	srand(static_cast<unsigned>(std::time(nullptr)));
+	vector<vector<Square>> game_board(ROW, vector<Square>(COLUMN));
 	InitialiseGameBoard(game_board);
 
 	char userInput;
@@ -55,7 +58,7 @@ int main()
 
 		case 'L':
 			// Code for command 'q'
-			std::cout << "Exiting the program." << std::endl;
+			SquareInformation(game_board);
 			break;
 
 		case 'I':
@@ -76,19 +79,20 @@ int main()
 	return EXIT_SUCCESS;
 }
 
-static void InitialiseGameBoard(vector<vector<Square>> game_board) {
+static void InitialiseGameBoard(vector<vector<Square>>& game_board) {
 
 	for (int i = 0; i < ROW; ++i)
 	{
 		for (int j = 0; j < COLUMN; ++j)
 		{
-			Square square = Square();
+			int randomValue = rand() % 2;
+			Square square = Square(randomValue);
 			game_board[i][j] = square;
 		}
 	}
 }
 
-static void MakeMove(vector<vector<Square>> game_board, char direction) {
+static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 	switch (direction) {
 	case 'N':
 		if (CURRENTROW == 0)
@@ -134,6 +138,25 @@ static void MakeMove(vector<vector<Square>> game_board, char direction) {
 		}
 		break;
 	}
+}
+
+static void SquareInformation(vector<vector<Square>>& game_board) {
+	Square currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
+	
+	if (currentSquare.hasEnemy)
+	{
+		Enemy currentEnemy = currentSquare.enemy;
+		cout << "This Square has an enemy with race: " << currentEnemy.race << ", attack: " << currentEnemy.attack
+			<< ", defense: " << currentEnemy.defence << ", health: " << currentEnemy.health << endl;
+	}
+	if (currentSquare.hasItem)
+	{
+		Item currentItem = currentSquare.item;
+		cout << "This Square has an : " << currentItem.name << ", weight: " << currentItem.weight
+			<< ", attack: " << currentItem.attackValue << ", defence: " << currentItem.defenseVaue << endl;
+
+	}
+	
 }
 
 
