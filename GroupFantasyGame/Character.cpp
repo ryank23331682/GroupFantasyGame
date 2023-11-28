@@ -1,18 +1,37 @@
 #include<string>
 #include "Item.h"
+#include "Character.h"
+#include "Player.cpp"
+using namespace std;
 class Character {
 public:
-	std::string name;
-	int strength;
+	string name;
 	int health;
-	int attack;
-	int defense;
+	int attackChance;
+	int defenseChance;
 
-	Character(std::string n, int str, int hp, int att, int def)
-		: name(n), strength(str), health(hp), attack(att), defense(def) {}
+	Character(string n, int hp, int att, int def)
+		: name(n), health(hp), attackChance(att), defenseChance(def) {}
 
-	void equipItem(const Item& item) {
-		// Implement logic to modify character attributes based on the equipped item
-		// You may need to add more attributes or methods to the Character class for this.
+	bool attack(Character& defender, int weaponDamage) {
+		if (rand() % 100 < attackChance) {
+			if (!defender.defend(weaponDamage)) {
+				return true; // Successful attack
+			}
+		}
+		return false; // Attack failed
 	}
+
+	//bool defend(int attackerDamage) {
+	//	if (rand() % 100 < defenseChance) {
+	//		// Successful defense
+	//		int damage = calculateDamage();
+	//		health -= max(0, attackerDamage - damage);
+	//		return true;
+	//	}
+	//	return false; // Defense failed
+	//}
+	//idk why but calculate damage is not working 
+	//cause we cant access virtual method?!?!
+
 };
