@@ -11,12 +11,7 @@ int ROW;
 int COLUMN;
 int main()
 {
-<<<<<<< HEAD
-    std::cout << "Hello World test branch Lucas!\n";
-    std::cout << "Hello World test 2 Lucas!\n";
-}
-=======
->>>>>>> master
+
 
     cout << "Welcome to our fantasy Game!\n";
     cout << "Enter in the rows of the board\n";
