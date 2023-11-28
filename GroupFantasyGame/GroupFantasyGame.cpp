@@ -22,23 +22,13 @@ int CURRENTCOLUMN = 0;
 int main()
 {
 
-<<<<<<< HEAD
 
-    cout << "Welcome to our fantasy Game!\n";
-    cout << "Enter in the rows of the board\n";
-    cin >> ROW;
-    cout << "Enter in the columns of the board\n";
-    cin >> COLUMN;
-    //Board gameBoard = Board(ROW, COLUMN);
-    Square square = Square();
-    vector<vector<Square>> game_board(ROW, vector<Square>(COLUMN, square));
-=======
+
 	cout << "Welcome to our fantasy Game!\n";
 	cout << "Enter in the rows of the board\n";
 	cin >> ROW;
 	cout << "Enter in the columns of the board\n";
 	cin >> COLUMN;
->>>>>>> master
 
 	srand(static_cast<unsigned>(std::time(nullptr)));
 	vector<vector<Square>> game_board(ROW, vector<Square>(COLUMN));
