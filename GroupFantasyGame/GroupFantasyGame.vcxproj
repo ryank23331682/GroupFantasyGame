@@ -130,12 +130,14 @@
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GroupFantasyGame.cpp" />
+    <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Square.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Square.h" />
   </ItemGroup>
