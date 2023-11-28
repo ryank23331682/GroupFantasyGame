@@ -1,12 +1,17 @@
 #include "Item.h"
+#include <iostream>
 
 Item::Item()
 {
 	weight = 0;
-	attackValue = 0;
-	defenseVaue = 0;
+	name = "";
 }
 
-Item::Item(string name, int weight, int attackValue, int defenseVaue) : name(name), weight(weight), attackValue(attackValue), defenseVaue(defenseVaue)
+Item::Item(string name, int weight) : name(name), weight(weight)
 {
+}
+
+void Item::displayInfo()
+{
+	cout << "Item: " << name << ", Weight: " << weight << "\n";
 }
