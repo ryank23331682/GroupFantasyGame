@@ -10,7 +10,7 @@ public:
 	string race;
 	int attack;
 	int defence;
-	int health;	
+	int health;
 	int strength;
 	double defenseChance;
 	double attackChance;

@@ -129,7 +129,7 @@ static void InitialiseGameBoard(vector<vector<Square>>& game_board) {
 		Armour("Plate Armour", 40, 10, 5),
 		Armour("Leather Armour", 20, 0, 5),
 	};
-	Shield shields[2] = { 
+	Shield shields[2] = {
 		Shield("Large Shield", 30, 10, 5),
 		Shield("Small Shield", 10, 5, 0),
 	};
@@ -148,7 +148,7 @@ static void InitialiseGameBoard(vector<vector<Square>>& game_board) {
 				Square square = Square(enemies[randomEnemy]);
 				game_board[i][j] = square;
 			}
-			else 
+			else
 			{
 				int randomItemType = rand() % 4;
 				int randomItem = rand() % 2;
@@ -188,7 +188,7 @@ static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 		break;
 
 	case 'S':
-		if (CURRENTROW == ROW -1)
+		if (CURRENTROW == ROW - 1)
 		{
 			cout << "Cannot Move south from this position\n";
 		}
@@ -210,7 +210,7 @@ static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 		break;
 
 	case 'E':
-		if (CURRENTCOLUMN == COLUMN -1)
+		if (CURRENTCOLUMN == COLUMN - 1)
 		{
 			cout << "Cannot Move East from this position\n";
 		}
@@ -233,10 +233,10 @@ static void SquareInformation(vector<vector<Square>>& game_board) {
 	}
 	if (currentSquare.hasItem)
 	{
-		if (currentSquare.hasArmour) 
+		if (currentSquare.hasArmour)
 		{
 			currentSquare.armour.displayInfo();
-		} 
+		}
 		else if (currentSquare.hasWeapon)
 		{
 			currentSquare.weapon.displayInfo();
