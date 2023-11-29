@@ -6,6 +6,10 @@
 #include <string>
 #include "Square.h"
 #include "Board.h"
+#include "Weapon.h"
+#include "Armour.h"
+#include "Shield.h"
+#include "Ring.h"
 using namespace std;
 
 void InitialiseGameBoard(vector<vector<Square>>& game_board);
@@ -110,13 +114,62 @@ int main()
 
 static void InitialiseGameBoard(vector<vector<Square>>& game_board) {
 
+	Enemy enemies[5] = {
+		Enemy("Human", 30, 20, 60, 100, 0.50, 0.67),
+		Enemy("Elf", 40, 10, 40, 70, 0.25, 1.00),
+		Enemy("Dwarf", 30, 20, 50, 130, 0.33, 0.67),
+		Enemy("Hobbit", 25, 20, 70, 85, 0.67, 0.33),
+		Enemy("Orc", 25, 10, 50, 130, 0.25, 0.25),
+	};
+	Weapon weapons[2] = {
+		Weapon("Sword", 10, 10),
+		Weapon("Dagger", 5, 5)
+	};
+	Armour armours[2] = {
+		Armour("Plate Armour", 40, 10, 5),
+		Armour("Leather Armour", 20, 0, 5),
+	};
+	Shield shields[2] = { 
+		Shield("Large Shield", 30, 10, 5),
+		Shield("Small Shield", 10, 5, 0),
+	};
+	Ring rings[2] = {
+	Ring("Ring of Life", 1, 10, 0, 0),
+	Ring("Ring of Strength", 1, 0, 50, 10),
+	};
+
 	for (int i = 0; i < ROW; ++i)
 	{
 		for (int j = 0; j < COLUMN; ++j)
 		{
 			int randomValue = rand() % 2;
-			Square square = Square(randomValue);
-			game_board[i][j] = square;
+			if (randomValue == 0) {
+				int randomEnemy = rand() % 5;
+				Square square = Square(enemies[randomEnemy]);
+				game_board[i][j] = square;
+			}
+			else 
+			{
+				int randomItemType = rand() % 4;
+				int randomItem = rand() % 2;
+				switch (randomItemType) {
+				case 0:
+					game_board[i][j] = Square(weapons[randomItem]);
+					break;
+
+				case 1:
+					game_board[i][j] = Square(armours[randomItem]);
+					break;
+
+				case 2:
+					game_board[i][j] = Square(shields[randomItem]);
+					break;
+
+				case 3:
+					game_board[i][j] = Square(rings[randomItem]);
+					break;
+				}
+			}
 		}
 	}
 }
@@ -135,7 +188,7 @@ static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 		break;
 
 	case 'S':
-		if (CURRENTROW == ROW)
+		if (CURRENTROW == ROW -1)
 		{
 			cout << "Cannot Move south from this position\n";
 		}
@@ -157,7 +210,7 @@ static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 		break;
 
 	case 'E':
-		if (CURRENTCOLUMN == COLUMN)
+		if (CURRENTCOLUMN == COLUMN -1)
 		{
 			cout << "Cannot Move East from this position\n";
 		}
@@ -180,9 +233,22 @@ static void SquareInformation(vector<vector<Square>>& game_board) {
 	}
 	if (currentSquare.hasItem)
 	{
-		Item currentItem = currentSquare.item;
-		cout << "This Square has an : " << currentItem.name << ", weight: " << currentItem.weight
-			<< ", attack: " << currentItem.attackValue << ", defence: " << currentItem.defenseVaue << endl;
+		if (currentSquare.hasArmour) 
+		{
+			currentSquare.armour.displayInfo();
+		} 
+		else if (currentSquare.hasWeapon)
+		{
+			currentSquare.weapon.displayInfo();
+		}
+		else if (currentSquare.hasRing)
+		{
+			currentSquare.ring.displayInfo();
+		}
+		else if (currentSquare.hasShield)
+		{
+			currentSquare.shield.displayInfo();
+		}
 
 	}
 
