@@ -17,7 +17,7 @@ public:
 		// You may need to add more attributes or methods to the Character class for this.
 	}
 public:
-	int calculateDamage() const {
-		return 0; // Base character has no special ability
-	}
+	int calculateDamage() const;
+	// Base character has no special ability
+
 };
