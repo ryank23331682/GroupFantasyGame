@@ -13,9 +13,12 @@
 #include "Player.h"
 using namespace std;
 
-void InitialiseGameBoard(vector<vector<Square>>& game_board);
+void PopulateGameBoard(vector<vector<Square>>& game_board);
 void MakeMove(vector<vector<Square>>& game_board, char direction);
 void SquareInformation(vector<vector<Square>>& game_board);
+void GameOptions(vector<vector<Square>> game_board);
+Player PlayerChoice();
+
 int ROW;
 int COLUMN;
 int CURRENTROW = 0;
@@ -36,69 +39,24 @@ int main()
 	cin >> ROW;
 	cout << "Enter in the columns of the board\n";
 	cin >> COLUMN;
-	
-	int characterChoice;
-	cout << "Choose youre character (1-5)";
-	cin >> characterChoice;
-	Player player = Player(characters[characterChoice - 1]);
-
-
-	srand(static_cast<unsigned>(std::time(nullptr)));
 	vector<vector<Square>> game_board(ROW, vector<Square>(COLUMN));
-	InitialiseGameBoard(game_board);
+	PopulateGameBoard(game_board);
 
-	char userInput;
+	Player player = PlayerChoice();
 
-	do {
-		cout << "Current Position = (" << CURRENTROW << ", " << CURRENTCOLUMN << ")\n";
-		cout << "Enter a command (N, W, S, E) or (A)ttack, (P)ick up, (D)rop, (L)ook, (I)nventroy, (Ex)it\n";
-		cin >> userInput;
-		switch (userInput) {
-		case 'N':
-		case 'S':
-		case 'W':
-		case 'E':
-			MakeMove(game_board, userInput);
-			break;
-		case 'A':
-			// Code for command 'q'
-			std::cout << "Exiting the program." << std::endl;
-			break;
+	// Test to hardcode a Item into Inventory, For LuLu ;)
+	int InventoryCounter = 1;
+	player.equipItem(Weapon("Sword", 10, 10));
 
-		case 'P':
-			// Code for command 'q'
-			std::cout << "Exiting the program." << std::endl;
-			break;
+	// you can use displayInventory to check if youve added stuff to inventory properly
+	player.displayInventory(player.Inventory, InventoryCounter);
 
-		case 'D':
-			// Code for command 'q'
-			std::cout << "Exiting the program." << std::endl;
-			break;
-
-		case 'L':
-			// Code for command 'q'
-			SquareInformation(game_board);
-			break;
-
-		case 'I':
-			// Code for command 'q'
-			std::cout << "Exiting the program." << std::endl;
-			break;
-
-		case 'X':
-			exit(0);
-
-		default:
-			// Code for handling invalid input
-			std::cout << "Invalid command. Please enter a, b, c, or q." << std::endl;
-			break;
-		}
-	} while (userInput);
+	GameOptions(game_board);
 
 	return EXIT_SUCCESS;
 }
 
-static void InitialiseGameBoard(vector<vector<Square>>& game_board) {
+static void PopulateGameBoard(vector<vector<Square>>& game_board) {
 
 	Weapon weapons[2] = {
 		Weapon("Sword", 10, 10),
@@ -153,6 +111,7 @@ static void InitialiseGameBoard(vector<vector<Square>>& game_board) {
 	}
 }
 
+//Comment Here
 static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 	switch (direction) {
 	case 'N':
@@ -200,7 +159,7 @@ static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 		break;
 	}
 }
-
+//Comment here
 static void SquareInformation(vector<vector<Square>>& game_board) {
 	Square currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
 
@@ -230,7 +189,77 @@ static void SquareInformation(vector<vector<Square>>& game_board) {
 		}
 	}
 }
+//Comment here
+void GameOptions(vector<vector<Square>> game_board)
+{
+	char userInput;
 
+	do {
+		cout << "Current Position = (" << CURRENTROW << ", " << CURRENTCOLUMN << ")\n";
+		cout << "Enter a command (N, W, S, E) or (A)ttack, (P)ick up, (D)rop, (L)ook, (I)nventroy, (Ex)it\n";
+		cin >> userInput;
+		switch (userInput) {
+		case 'N':
+		case 'S':
+		case 'W':
+		case 'E':
+			MakeMove(game_board, userInput);
+			break;
+		case 'A':
+			// Code for command 'q'
+			std::cout << "Exiting the program." << std::endl;
+			break;
+
+		case 'P':
+			// Code for command 'q'
+			std::cout << "Exiting the program." << std::endl;
+			break;
+
+		case 'D':
+			// Code for command 'q'
+			std::cout << "Exiting the program." << std::endl;
+			break;
+
+		case 'L':
+			// Code for command 'q'
+			SquareInformation(game_board);
+			break;
+
+		case 'I':
+			// Code for command 'q'
+			std::cout << "Exiting the program." << std::endl;
+			break;
+
+		case 'X':
+			exit(0);
+
+		default:
+			// Code for handling invalid input
+			std::cout << "Invalid command. Please enter a, b, c, or q." << std::endl;
+			break;
+		}
+	} while (userInput);
+}
+
+//Comment here
+Player PlayerChoice()
+{
+	int characterChoice;
+
+	for (Character character : characters) {
+		cout << "Race: " << character.race << "\n";
+		cout << "Attack: " << character.attack << "\n";
+		cout << "Defense: " << character.defence << "\n";
+		cout << "Health: " << character.health << "\n";
+		cout << "Strength: " << character.strength << "\n";
+		cout << "Defense Chance: " << character.defenseChance << "\n";
+		cout << "Attack Chance: " << character.attackChance << "\n\n";
+	}
+	cout << "Choose youre character (1-5): ";
+	cin >> characterChoice;
+	return Player(characters[characterChoice - 1]);
+}
+//Comment here
 static void UpdateDayNight(vector<vector<Square>>& game_board) {
 
 	MOVECOUNTER++;
