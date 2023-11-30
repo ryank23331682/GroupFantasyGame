@@ -13,9 +13,9 @@
 #include "Player.h"
 using namespace std;
 
-void InitialiseGameBoard(vector<vector<Square>>& game_board);
-void MakeMove(vector<vector<Square>>& game_board, char direction);
-void SquareInformation(vector<vector<Square>>& game_board);
+void InitialiseGameBoard(vector <vector<Square> >& game_board);
+void MakeMove(vector<vector<Square> >& game_board, char direction);
+void SquareInformation(vector<vector<Square> >& game_board);
 int ROW;
 int COLUMN;
 int CURRENTROW = 0;
@@ -29,14 +29,10 @@ Character characters[5] = {
 	Character("Hobbit", 25, 20, 70, 85, 0.67, 0.33),
 	Character("Orc", 25, 10, 50, 130, 0.25, 0.25),
 };
+
 int main()
 {
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> origin
+	// Initialise the game board
 	cout << "Welcome to our fantasy Game!\n";
 	cout << "Enter in the rows of the board\n";
 	cin >> ROW;
