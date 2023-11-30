@@ -1,31 +1,29 @@
-#include<string>
-#include "Item.h"
 #include "Character.h"
-#include "Player.cpp"
+#include <string>
+#include <list>
 using namespace std;
 
-	Character::Character(string n, int str, int hp, int att, int def)
-		: name(n), health(hp), attackChance(att), defenseChance(def) 
-	{
-	}
+Character::Character()
+{
+	attack = 0;
+	defence = 0;
+	health = 0;
+	strength = 0;
+	defenseChance = 0;
+	attackChance = 0;
+}
+Character::Character(string race, int attack, int defence, int health, int strength, double defenseChance, double attackChance)
+	: race(race), attack(attack), defence(defence), health(health), strength(strength), defenseChance(defenseChance), attackChance(attackChance)
+{
+	// Additional initialization code if needed
+}
 
-	bool attack(Character& defender, Character& attacker) {
-		if (rand() % 100 < attacker.attackChance) {
-			if (!defender.defense) {
-				return true; // Successful attack
-			}
-		}
-		return false; // Attack failed
-	}
+void UpdateEnemyOnTimeOfDay(Character character)
+{
 
-	//bool defend(int attackerDamage) {
-	//	if (rand() % 100 < defenseChance) {
-	//		// Successful defense
-	//		int damage = calculateDamage();
-	//		health -= max(0, attackerDamage - damage);
-	//		return true;
-	//	}
-	//	return false; // Defense failed
-	//}
-	//idk why but calculate damage is not working 
-	//cause we cant access virtual method?!?!
+	character. attack = 45;
+	character.attackChance = 1.00;
+	character.defenseChance = 0.50;
+
+}
+
