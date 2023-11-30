@@ -10,6 +10,7 @@
 #include "Armour.h"
 #include "Shield.h"
 #include "Ring.h"
+#include "Player.h"
 using namespace std;
 
 void InitialiseGameBoard(vector<vector<Square>>& game_board);
@@ -19,16 +20,34 @@ int ROW;
 int COLUMN;
 int CURRENTROW = 0;
 int CURRENTCOLUMN = 0;
+bool ISDAY = true;
+int MOVECOUNTER = 0;
+Character characters[5] = {
+	Character("Human", 30, 20, 60, 100, 0.50, 0.67),
+	Character("Elf", 40, 10, 40, 70, 0.25, 1.00),
+	Character("Dwarf", 30, 20, 50, 130, 0.33, 0.67),
+	Character("Hobbit", 25, 20, 70, 85, 0.67, 0.33),
+	Character("Orc", 25, 10, 50, 130, 0.25, 0.25),
+};
 int main()
 {
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> origin
 	cout << "Welcome to our fantasy Game!\n";
 	cout << "Enter in the rows of the board\n";
 	cin >> ROW;
 	cout << "Enter in the columns of the board\n";
 	cin >> COLUMN;
+	
+	int characterChoice;
+	cout << "Choose youre character (1-5)";
+	cin >> characterChoice;
+	Player player = Player(characters[characterChoice - 1]);
+
 
 	srand(static_cast<unsigned>(std::time(nullptr)));
 	vector<vector<Square>> game_board(ROW, vector<Square>(COLUMN));
@@ -87,13 +106,6 @@ int main()
 
 static void InitialiseGameBoard(vector<vector<Square>>& game_board) {
 
-	Enemy enemies[5] = {
-		Enemy("Human", 30, 20, 60, 100, 0.50, 0.67),
-		Enemy("Elf", 40, 10, 40, 70, 0.25, 1.00),
-		Enemy("Dwarf", 30, 20, 50, 130, 0.33, 0.67),
-		Enemy("Hobbit", 25, 20, 70, 85, 0.67, 0.33),
-		Enemy("Orc", 25, 10, 50, 130, 0.25, 0.25),
-	};
 	Weapon weapons[2] = {
 		Weapon("Sword", 10, 10),
 		Weapon("Dagger", 5, 5)
@@ -118,7 +130,7 @@ static void InitialiseGameBoard(vector<vector<Square>>& game_board) {
 			int randomValue = rand() % 2;
 			if (randomValue == 0) {
 				int randomEnemy = rand() % 5;
-				Square square = Square(enemies[randomEnemy]);
+				Square square = Square(characters[randomEnemy]);
 				game_board[i][j] = square;
 			}
 			else 
@@ -197,10 +209,10 @@ static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 
 static void SquareInformation(vector<vector<Square>>& game_board) {
 	Square currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
-	
+
 	if (currentSquare.hasEnemy)
 	{
-		Enemy currentEnemy = currentSquare.enemy;
+		Character currentEnemy = currentSquare.character;
 		cout << "This Square has an enemy with race: " << currentEnemy.race << ", attack: " << currentEnemy.attack
 			<< ", defense: " << currentEnemy.defence << ", health: " << currentEnemy.health << endl;
 	}
@@ -222,9 +234,33 @@ static void SquareInformation(vector<vector<Square>>& game_board) {
 		{
 			currentSquare.shield.displayInfo();
 		}
+	}
+}
+
+static void UpdateDayNight(vector<vector<Square>>& game_board) {
+
+	MOVECOUNTER++;
+	if (MOVECOUNTER % 5 == 0) {
+		ISDAY = !ISDAY;
+	}
+
+	if (!ISDAY)
+	{
+		list<Character> enemies;
+		for (int i = 0; i < ROW; ++i)
+		{
+			for (int j = 0; j < COLUMN; ++j)
+			{
+				if (game_board[ROW][COLUMN].hasEnemy && game_board[ROW][COLUMN].character.race == "Orc") 
+				{
+					game_board[ROW][COLUMN].character.UpdateEnemyOnTimeOfDay(game_board[ROW][COLUMN].character);
+				}
+			}
+		}
 
 	}
-	
 }
+
+
 
 
