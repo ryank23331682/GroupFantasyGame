@@ -13,7 +13,7 @@ Shield::Shield()
 {
 }
 
-void Shield::displayInfo() 
+void Shield::displayInfo()
 {
 	std::cout << "Shield: " << name << ", Weight: " << weight << ", Defense Bonus: " << defenseBonus << ", Attack Penalty: " << attackPenalty << "\n";
 }

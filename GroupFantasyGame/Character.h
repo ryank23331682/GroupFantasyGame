@@ -1,5 +1,6 @@
 #pragma once
 #include "Item.h"
+#include<string>
 using namespace std;
 class Character {
 public:
@@ -8,9 +9,10 @@ public:
 	int health;
 	int attack;
 	int defense;
+	int attackChance;
+	int defenseChance;
 
-	Character(string n, int str, int hp, int att, int def)
-		: name(n), strength(str), health(hp), attack(att), defense(def) {}
+	Character(string n, int str, int hp, int att, int def);
 
 	void equipItem(const Item& item) {
 		// Implement logic to modify character attributes based on the equipped item

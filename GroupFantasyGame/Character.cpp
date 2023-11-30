@@ -3,19 +3,15 @@
 #include "Character.h"
 #include "Player.cpp"
 using namespace std;
-class Character {
-public:
-	string name;
-	int health;
-	int attackChance;
-	int defenseChance;
 
-	Character(string n, int hp, int att, int def)
-		: name(n), health(hp), attackChance(att), defenseChance(def) {}
+	Character::Character(string n, int str, int hp, int att, int def)
+		: name(n), health(hp), attackChance(att), defenseChance(def) 
+	{
+	}
 
-	bool attack(Character& defender, int weaponDamage) {
-		if (rand() % 100 < attackChance) {
-			if (!defender.defend(weaponDamage)) {
+	bool attack(Character& defender, Character& attacker) {
+		if (rand() % 100 < attacker.attackChance) {
+			if (!defender.defense) {
 				return true; // Successful attack
 			}
 		}
@@ -33,5 +29,3 @@ public:
 	//}
 	//idk why but calculate damage is not working 
 	//cause we cant access virtual method?!?!
-
-};
