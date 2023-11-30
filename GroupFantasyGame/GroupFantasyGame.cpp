@@ -31,36 +31,6 @@ Character characters[5] = {
 };
 int main()
 {
-	/*Player player("Player", 100, 70, 30);
-	Enemy enemy("Dragon", 150, 50, 20, 10);
-
-	while (player.health > 0 && enemy.health > 0) {
-		if (player.attack(enemy, 20)) {
-			std::cout << "Player successfully attacked enemy!\n";
-			if (enemy.health <= 0) {
-				std::cout << "Enemy defeated! Gold collected: " << enemy.defenseValue << "\n";
-				player.gold += enemy.defenseValue;
-			}
-		}
-		else {
-			std::cout << "Player's attack failed!\n";
-		}
-
-		if (enemy.health > 0 && enemy.attack(player, 15)) {
-			std::cout << "Enemy successfully attacked player!\n";
-		}
-		else {
-			std::cout << "Enemy's attack failed!\n";
-		}
-
-		std::cout << "Player Health: " << player.health << " Gold: " << player.gold << "\n";
-		std::cout << "Enemy Health: " << enemy.health << "\n\n";
-	}
-
-	std::cout << "Game Over. Gold collected: " << player.gold << "\n";
-
-	return 0;*/
-
 	cout << "Welcome to our fantasy Game!\n";
 	cout << "Enter in the rows of the board\n";
 	cin >> ROW;
@@ -70,7 +40,8 @@ int main()
 	int characterChoice;
 	cout << "Choose youre character (1-5)";
 	cin >> characterChoice;
-	//Player player = characters[characterChoice - 1];
+	Player player = Player(characters[characterChoice - 1]);
+
 
 	srand(static_cast<unsigned>(std::time(nullptr)));
 	vector<vector<Square>> game_board(ROW, vector<Square>(COLUMN));

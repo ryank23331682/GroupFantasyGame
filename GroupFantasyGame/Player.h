@@ -1,19 +1,12 @@
 #pragma once
 #include "Item.h"
 #include<string>
+#include "Character.h"
 using namespace std;
-class Player {
+class Player : public Character {
 public:
-	string name;
-	int strength;
-	int health;
-	int attack;
-	int defense;
-	int attackChance;
-	int defenseChance;
-
-
-	Player(string n, int str, int hp, int att, int def);
+	vector <Item> Inventory;
+	Player(Character c);
 
 	void equipItem(const Item& item) {
 		// Implement logic to modify character attributes based on the equipped item
