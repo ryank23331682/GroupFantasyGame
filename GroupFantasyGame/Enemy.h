@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <list>
 using namespace std;
 
 class Enemy
@@ -14,6 +15,7 @@ public:
 	int strength;
 	double defenseChance;
 	double attackChance;
+	void UpdateEnemyOnTimeOfDay(Enemy enemy);
 
 };
 

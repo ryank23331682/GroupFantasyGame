@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include <string>
+#include <list>
 using namespace std;
 
 Enemy::Enemy()
@@ -16,3 +17,13 @@ Enemy::Enemy(string race, int attack, int defence, int health, int strength, dou
 {
 	// Additional initialization code if needed
 }
+
+void UpdateEnemyOnTimeOfDay(Enemy enemy)
+{
+
+	enemy. attack = 45;
+	enemy.attackChance = 1.00;
+	enemy.defenseChance = 0.50;
+
+}
+

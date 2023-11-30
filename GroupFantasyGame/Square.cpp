@@ -3,8 +3,6 @@
 #include "Armour.h"
 #include "Ring.h"
 #include "Weapon.h"
-
-
 #include "Square.h"
 #include <stdlib.h>
 

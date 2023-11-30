@@ -19,6 +19,8 @@ int ROW;
 int COLUMN;
 int CURRENTROW = 0;
 int CURRENTCOLUMN = 0;
+bool ISDAY = true;
+int MOVECOUNTER = 0;
 int main()
 {
 	/*Player player("Player", 100, 70, 30);
@@ -249,9 +251,33 @@ static void SquareInformation(vector<vector<Square>>& game_board) {
 		{
 			currentSquare.shield.displayInfo();
 		}
+	}
+}
 
+static void UpdateDayNight(vector<vector<Square>>& game_board) {
+
+	MOVECOUNTER++;
+	if (MOVECOUNTER % 5 == 0) {
+		ISDAY = !ISDAY;
 	}
 
+	if (!ISDAY)
+	{
+		list<Enemy> enemies;
+		for (int i = 0; i < ROW; ++i)
+		{
+			for (int j = 0; j < COLUMN; ++j)
+			{
+				if (game_board[ROW][COLUMN].hasEnemy && game_board[ROW][COLUMN].enemy.race == "Orc") 
+				{
+					game_board[ROW][COLUMN].enemy.UpdateEnemyOnTimeOfDay(game_board[ROW][COLUMN].enemy);
+				}
+			}
+		}
+
+	}
 }
+
+
 
 
