@@ -44,11 +44,8 @@ int main()
 
 	Player player = PlayerChoice();
 
-	// Test to hardcode a Item into Inventory, For LuLu ;)
 	int InventoryCounter = 1;
 	player.equipItem(Weapon("Sword", 10, 10));
-
-	// you can use displayInventory to check if youve added stuff to inventory properly
 	player.displayInventory(player.Inventory, InventoryCounter);
 
 	GameOptions(game_board);
