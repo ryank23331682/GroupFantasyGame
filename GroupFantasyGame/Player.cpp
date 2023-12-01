@@ -30,7 +30,7 @@ void Player::displayInventory(vector<Item>* inventory, int length)
 		(*inventory)[i].displayInfo();
 	}
 }
-int Character::defendMove(int incomingDamage) {
+int Character::defendMove(int& incomingDamage) {
 	double randomValue = static_cast<double>(rand()) / RAND_MAX;  // Generate a random value between 0 and 1
 
 	if (randomValue < defenseChance) {
@@ -57,7 +57,7 @@ int Character::defendMove(int incomingDamage) {
 //	return false; // Attack failed
 //}
 
-int Character::attackMove(Character enemy) {
+int Character::attackMove(Character& enemy) {
 	double randomValue = static_cast<double>(rand()) / RAND_MAX;  // Generate a random value between 0 and 1
 
 	if (randomValue < attackChance) {

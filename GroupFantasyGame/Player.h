@@ -7,6 +7,7 @@ using namespace std;
 class Player : public Character {
 public:
 	vector<Item>* Inventory;
+	int gold;
 	Player(Character c);
 	void equipItem(const Item& item);
 	int calculateDamage();
