@@ -11,11 +11,13 @@ public:
 	string race;
 	int attack;
 	int defence;
-	int health;	
+	int health;
 	int strength;
 	double defenseChance;
 	double attackChance;
 	void UpdateEnemyOnTimeOfDay(Character enemy);
+	int defendMove(int incomingDamage);
+	int attackMove(Character enemy);
 
 };
 

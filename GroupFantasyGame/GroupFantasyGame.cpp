@@ -16,7 +16,8 @@ using namespace std;
 void PopulateGameBoard(vector<vector<Square>>& game_board);
 void MakeMove(vector<vector<Square>>& game_board, char direction);
 void SquareInformation(vector<vector<Square>>& game_board);
-void GameOptions(vector<vector<Square>> game_board);
+void GameOptions(vector<vector<Square>> game_board, Player player);
+void performAttack(vector<vector<Square>>& game_board, Player& player);
 Player PlayerChoice();
 
 int ROW;
@@ -51,7 +52,7 @@ int main()
 	// you can use displayInventory to check if youve added stuff to inventory properly
 	player.displayInventory(player.Inventory, InventoryCounter);
 
-	GameOptions(game_board);
+	GameOptions(game_board, player);
 
 	return EXIT_SUCCESS;
 }
@@ -189,7 +190,7 @@ static void SquareInformation(vector<vector<Square>>& game_board) {
 	}
 }
 
-void GameOptions(vector<vector<Square>> game_board)
+void GameOptions(vector<vector<Square>> game_board, Player player)
 {
 	char userInput;
 
@@ -205,8 +206,7 @@ void GameOptions(vector<vector<Square>> game_board)
 			MakeMove(game_board, userInput);
 			break;
 		case 'A':
-			// Code for command 'q'
-			std::cout << "Exiting the program." << std::endl;
+			performAttack(game_board, player);
 			break;
 
 		case 'P':
@@ -238,6 +238,22 @@ void GameOptions(vector<vector<Square>> game_board)
 			break;
 		}
 	} while (userInput);
+}
+
+void performAttack(vector<vector<Square>>& game_board, Player& player)
+{
+	Square currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
+
+	if (currentSquare.hasEnemy)
+	{
+		Character currentEnemy = currentSquare.character;
+		currentEnemy.health -= player.attackMove(currentEnemy);
+		player.health -= currentEnemy.attackMove(player);
+	}
+	else
+	{
+		cout << "Cannot perform attack as no enemy on square";
+	}
 }
 
 Player PlayerChoice()
@@ -272,7 +288,7 @@ static void UpdateDayNight(vector<vector<Square>>& game_board) {
 		{
 			for (int j = 0; j < COLUMN; ++j)
 			{
-				if (game_board[ROW][COLUMN].hasEnemy && game_board[ROW][COLUMN].character.race == "Orc") 
+				if (game_board[ROW][COLUMN].hasEnemy && game_board[ROW][COLUMN].character.race == "Orc")
 				{
 					game_board[ROW][COLUMN].character.UpdateEnemyOnTimeOfDay(game_board[ROW][COLUMN].character);
 				}
