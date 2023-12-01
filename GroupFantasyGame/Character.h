@@ -1,21 +1,21 @@
 #pragma once
-#include "Item.h"
+#include <string>
+#include <list>
 using namespace std;
-class Character {
+
+class Character
+{
 public:
-	string name;
+	Character();
+	Character(string race, int attack, int defence, int health, int strength, double defenseChance, double attackChance);
+	string race;
+	int attack;
+	int defence;
+	int health;	
 	int strength;
-	int health;
-	int attackChance;
-	int defenseChance;
+	double defenseChance;
+	double attackChance;
+	void UpdateEnemyOnTimeOfDay(Character enemy);
 
-
-	Character(string n, int str, int hp, int att, int def)
-		: name(n), strength(str), health(hp), attackChance(att), defenseChance(def) {}
-
-	void equipItem(const Item& item) {
-		// Implement logic to modify character attributes based on the equipped item
-		// You may need to add more attributes or methods to the Character class for this.
-	}
-	Character(string n, int hp, int att, int def);
 };
+

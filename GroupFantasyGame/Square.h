@@ -1,4 +1,4 @@
-#include "Enemy.h"
+#include "Character.h"
 #include "Item.h"
 #include "Armour.h"
 #include "Ring.h"
@@ -7,25 +7,24 @@
 
 class Square {
 public:
-	Enemy enemy;
-	Weapon weapon;
-	Armour armour;
-	Ring ring;
-	Shield shield;
-	bool hasItem;
-	bool hasEnemy;
-	bool hasArmour;
-	bool hasShield;
-	bool hasWeapon;
-	bool hasRing;
+    Character character;
+    Weapon weapon;
+    Armour armour;
+    Ring ring;
+    Shield shield;
+    bool hasItem;
+    bool hasEnemy;
+    bool hasArmour;
+    bool hasShield;
+    bool hasWeapon;
+    bool hasRing;
 
-	Square(Enemy e);
-	Square(Weapon w);
-	Square(Ring r);
-	Square(Shield s);
-	Square(Armour a);
-	Square();
-
+    Square(Character c);
+    Square(Weapon w);
+    Square(Ring r);
+    Square(Shield s);
+    Square(Armour a);
+    Square();
 };
 
 

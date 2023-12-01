@@ -44,11 +44,8 @@ int main()
 
 	Player player = PlayerChoice();
 
-	// Test to hardcode a Item into Inventory, For LuLu ;)
 	int InventoryCounter = 1;
 	player.equipItem(Weapon("Sword", 10, 10));
-
-	// you can use displayInventory to check if youve added stuff to inventory properly
 	player.displayInventory(player.Inventory, InventoryCounter);
 
 	GameOptions(game_board);
@@ -66,7 +63,7 @@ static void PopulateGameBoard(vector<vector<Square>>& game_board) {
 		Armour("Plate Armour", 40, 10, 5),
 		Armour("Leather Armour", 20, 0, 5),
 	};
-	Shield shields[2] = {
+	Shield shields[2] = { 
 		Shield("Large Shield", 30, 10, 5),
 		Shield("Small Shield", 10, 5, 0),
 	};
@@ -85,7 +82,7 @@ static void PopulateGameBoard(vector<vector<Square>>& game_board) {
 				Square square = Square(characters[randomEnemy]);
 				game_board[i][j] = square;
 			}
-			else
+			else 
 			{
 				int randomItemType = rand() % 4;
 				int randomItem = rand() % 2;
@@ -125,7 +122,7 @@ static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 		break;
 
 	case 'S':
-		if (CURRENTROW == ROW - 1)
+		if (CURRENTROW == ROW -1)
 		{
 			cout << "Cannot Move south from this position\n";
 		}
@@ -147,7 +144,7 @@ static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 		break;
 
 	case 'E':
-		if (CURRENTCOLUMN == COLUMN - 1)
+		if (CURRENTCOLUMN == COLUMN -1)
 		{
 			cout << "Cannot Move East from this position\n";
 		}
@@ -170,10 +167,10 @@ static void SquareInformation(vector<vector<Square>>& game_board) {
 	}
 	if (currentSquare.hasItem)
 	{
-		if (currentSquare.hasArmour)
+		if (currentSquare.hasArmour) 
 		{
 			currentSquare.armour.displayInfo();
-		}
+		} 
 		else if (currentSquare.hasWeapon)
 		{
 			currentSquare.weapon.displayInfo();
