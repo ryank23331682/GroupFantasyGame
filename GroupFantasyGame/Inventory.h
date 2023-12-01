@@ -6,8 +6,12 @@ using namespace std;
 class Inventory {
 private:
 	vector<Item> items;
+	
 
 public:
+	bool isFull;
+	
+
 	void addItem(Item item) {
 		items.push_back(item);
 	}
@@ -19,5 +23,7 @@ public:
 		}
 	}
 
+	void isInventoryIsFull();
+		
 	// Additional methods for handling inventory and character interactions could be added here
 };

@@ -257,6 +257,15 @@ static void UpdateDayNight(vector<vector<Square>>& game_board) {
 	}
 }
 
+static void pickUp(vector<vector<Square>>& game_board){
+	Square& currentSquare = game_board[CURRENTROW],[CURRENTCOLUMN];
+
+	if (currentSquare.hasItem ||  )
+
+
+
+}
+
 
 
 

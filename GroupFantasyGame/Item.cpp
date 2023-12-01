@@ -5,9 +5,10 @@ Item::Item()
 {
 	weight = 0;
 	name = "";
+	category = "";
 }
 
-Item::Item(string name, int weight) : name(name), weight(weight)
+Item::Item(string name,string category, int weight) : name(name),category(category), weight(weight)
 {
 }
 

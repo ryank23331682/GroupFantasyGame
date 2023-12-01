@@ -5,7 +5,8 @@ class Item {
 public:
 	string name;
 	int weight;
-	Item(string n, int w);
+	string category;
+	Item(string n, string c, int w);
 	Item();
 	virtual void displayInfo();
 };
