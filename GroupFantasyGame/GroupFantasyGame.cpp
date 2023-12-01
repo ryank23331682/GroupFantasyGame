@@ -13,24 +13,19 @@
 #include "Player.h"
 using namespace std;
 
-<<<<<<< HEAD
-void InitialiseGameBoard(vector <vector<Square> >& game_board);
-void MakeMove(vector<vector<Square> >& game_board, char direction);
-void SquareInformation(vector<vector<Square> >& game_board);
-=======
 void PopulateGameBoard(vector<vector<Square>>& game_board);
 void MakeMove(vector<vector<Square>>& game_board, char direction);
 void SquareInformation(vector<vector<Square>>& game_board);
 void GameOptions(vector<vector<Square>> game_board);
 Player PlayerChoice();
 
->>>>>>> master
 int ROW;
 int COLUMN;
 int CURRENTROW = 0;
 int CURRENTCOLUMN = 0;
 bool ISDAY = true;
 int MOVECOUNTER = 0;
+
 Character characters[5] = {
 	Character("Human", 30, 20, 60, 100, 0.50, 0.67),
 	Character("Elf", 40, 10, 40, 70, 0.25, 1.00),
@@ -290,14 +285,96 @@ static void UpdateDayNight(vector<vector<Square>>& game_board) {
 	}
 }
 
-static void pickUp(vector<vector<Square>>& game_board){
-	Square& currentSquare = game_board[CURRENTROW],[CURRENTCOLUMN];
+static void pickUp_Drop(vector<vector<Square>>& game_board, Player& player){
+	Square currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
+	string answer;
+	int number;
+	int InventoryCounter = 5;
+	int itemIndex;
 
-	if (currentSquare.hasItem ||  )
+	
+	if (currentSquare.hasItem){
+		if (player.Inventory->size() < InventoryCounter){
+
+			cout<<"You have "<< InventoryCounter-player.Inventory->size()<< " space in your inventory"<<endl;
+			cout << "Do you want ot pickup this item ? Y(es) for yes and N(o) for No"<< endl;
+			cin>> answer;
+			if (answer == "Y"){
+
+				if (currentSquare.hasWeapon) {
+					player.equipItem(currentSquare.weapon);
+				}
+				else if (currentSquare.hasArmour) {
+					player.equipItem(currentSquare.armour);
+				}
+				else if (currentSquare.hasShield) {
+					player.equipItem(currentSquare.shield);
+				}
+				else if (currentSquare.hasRing) {
+					player.equipItem(currentSquare.ring);
+				}
+				currentSquare.hasItem = false;
+				currentSquare.hasWeapon = false;
+				currentSquare.hasArmour = false;
+				currentSquare.hasShield = false;
+				currentSquare.hasRing = false;
+			}
+			else {
+				cout<< "You didn't pick the item"<<endl;
+			}
+		}
+		else {
+
+			cout<< "Do you want to drop a Item ? Y(es) for yes and N(o) for No" <<endl;
+			cin>> answer;
+			if (answer == "Y"){
+				cout<< "which item do you want to drop ? 1 / 2/ 3 /4 /5";
+				player.displayInventory(player.Inventory, InventoryCounter);
+				player.dropItem(itemIndex);
+				cout<< "you erased an item";
+				player.displayInventory(player.Inventory, InventoryCounter);
+
+				cout<<"You have "<< InventoryCounter-player.Inventory->size()<< " space in your inventory"<<endl;
+				cout << "Do you want ot pickup this item ? Y(es) for yes and N(o) for No"<< endl;
+				cin>> answer;
+				if (answer == "Y"){
+
+					if (currentSquare.hasWeapon) {
+						player.equipItem(currentSquare.weapon);
+					}
+					else if (currentSquare.hasArmour) {
+						player.equipItem(currentSquare.armour);
+					}
+					else if (currentSquare.hasShield) {
+						player.equipItem(currentSquare.shield);
+					}
+					else if (currentSquare.hasRing) {
+						player.equipItem(currentSquare.ring);
+					}
+					currentSquare.hasItem = false;
+					currentSquare.hasWeapon = false;
+					currentSquare.hasArmour = false;
+					currentSquare.hasShield = false;
+					currentSquare.hasRing = false;
+				}
+				else {
+					cout<< "You didn't pick the item"<<endl;
+				}
 
 
+			}
+			else {
+				cout<< "Next Move!"<<endl;
+			}
 
-}
+		}
+		// you can use displayInventory to check if youve added stuff to inventory properly
+		player.displayInventory(player.Inventory, InventoryCounter);
+
+		
+	}
+
+
 
 
 

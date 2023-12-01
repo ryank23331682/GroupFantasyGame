@@ -27,10 +27,3 @@ void UpdateEnemyOnTimeOfDay(Character character)
 
 }
 
-<<<<<<< HEAD
-void equipItem(const Item& item) {
-		// Implement logic to modify character attributes based on the equipped item
-		// You may need to add more attributes or methods to the Character class for this.
-	};
-=======
->>>>>>> origin

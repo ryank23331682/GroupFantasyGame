@@ -9,6 +9,7 @@ public:
 	vector<Item>* Inventory;
 	Player(Character c);
 	void equipItem(const Item& item);
+	void dropItem(int itemIndex);
 	int calculateDamage();
 	void displayInventory(vector<Item>* inventory, int length);
 };
