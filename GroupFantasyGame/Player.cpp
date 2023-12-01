@@ -16,20 +16,20 @@ using namespace std;
 		Inventory->push_back(item);
 	}
 
-	void Player::dropItem(int itemIndex)
+	void Player::dropItem(vector<Item>* Inventory, int itemIndex)
 	{
-    // Check if the index is valid
-    while (itemIndex < 1 || itemIndex > Inventory->size()) {
-        cout << "Invalid item number.\n";
-		cin>> itemIndex;
-        return;
-    }
+		// Check if the index is valid
+		while (itemIndex < 1 || itemIndex > Inventory->size()) {
+			cout << "Invalid item number.\n";
+			cin>> itemIndex;
+			return;
+		}
 
-    // Adjust index to 0-based
-    itemIndex--;
+		// Adjust index to 0-based
+		itemIndex--;
 
-    // Erase the item from the inventory
-    Inventory->erase(Inventory->begin() + itemIndex);
+		// Erase the item from the inventory
+		Inventory->erase(Inventory->begin() + itemIndex);
 }
 
 

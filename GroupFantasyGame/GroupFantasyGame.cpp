@@ -330,7 +330,7 @@ static void pickUp_Drop(vector<vector<Square>>& game_board, Player& player){
 			if (answer == "Y"){
 				cout<< "which item do you want to drop ? 1 / 2/ 3 /4 /5";
 				player.displayInventory(player.Inventory, InventoryCounter);
-				player.dropItem(itemIndex);
+				player.dropItem(player.Inventory, itemIndex);
 				cout<< "you erased an item";
 				player.displayInventory(player.Inventory, InventoryCounter);
 
