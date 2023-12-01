@@ -13,18 +13,12 @@
 #include "Player.h"
 using namespace std;
 
-<<<<<<< HEAD
-void InitialiseGameBoard(vector <vector<Square> >& game_board);
-void MakeMove(vector<vector<Square> >& game_board, char direction);
-void SquareInformation(vector<vector<Square> >& game_board);
-=======
 void PopulateGameBoard(vector<vector<Square>>& game_board);
 void MakeMove(vector<vector<Square>>& game_board, char direction);
 void SquareInformation(vector<vector<Square>>& game_board);
 void GameOptions(vector<vector<Square>> game_board);
 Player PlayerChoice();
 
->>>>>>> master
 int ROW;
 int COLUMN;
 int CURRENTROW = 0;
@@ -38,10 +32,8 @@ Character characters[5] = {
 	Character("Hobbit", 25, 20, 70, 85, 0.67, 0.33),
 	Character("Orc", 25, 10, 50, 130, 0.25, 0.25),
 };
-
 int main()
 {
-	// Initialise the game board
 	cout << "Welcome to our fantasy Game!\n";
 	cout << "Enter in the rows of the board\n";
 	cin >> ROW;
@@ -52,11 +44,8 @@ int main()
 
 	Player player = PlayerChoice();
 
-	// Test to hardcode a Item into Inventory, For LuLu ;)
 	int InventoryCounter = 1;
 	player.equipItem(Weapon("Sword", 10, 10));
-
-	// you can use displayInventory to check if youve added stuff to inventory properly
 	player.displayInventory(player.Inventory, InventoryCounter);
 
 	GameOptions(game_board);
@@ -288,15 +277,6 @@ static void UpdateDayNight(vector<vector<Square>>& game_board) {
 		}
 
 	}
-}
-
-static void pickUp(vector<vector<Square>>& game_board){
-	Square& currentSquare = game_board[CURRENTROW],[CURRENTCOLUMN];
-
-	if (currentSquare.hasItem ||  )
-
-
-
 }
 
 
