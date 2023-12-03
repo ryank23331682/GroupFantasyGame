@@ -2,8 +2,10 @@
 //
 
 #include <iostream>
+#include <iomanip> 
 #include <vector>
 #include <string>
+#include <random>
 #include "Square.h"
 #include "Board.h"
 #include "Weapon.h"
@@ -18,7 +20,10 @@ void MakeMove(vector<vector<Square>>& game_board, char direction);
 void SquareInformation(vector<vector<Square>>& game_board);
 void GameOptions(vector<vector<Square>> game_board, Player player);
 void performAttack(vector<vector<Square>>& game_board, Player& player);
+void pickUp(vector<vector<Square>>& game_board, Player& player);
+void drop(vector<vector<Square>>& game_board, Player& player);
 void EndGame(Player& player);
+//bool hasItemType(const Item& item, const vector<Item>& Inventory);
 Player PlayerChoice();
 
 int ROW;
@@ -27,6 +32,7 @@ int CURRENTROW = 0;
 int CURRENTCOLUMN = 0;
 bool ISDAY = true;
 int MOVECOUNTER = 0;
+int InventoryCounter = 0;
 Character characters[5] = {
 	Character("Human", 30, 20, 60, 100, 0.50, 0.67),
 	Character("Elf", 40, 10, 40, 70, 0.25, 1.00),
@@ -45,13 +51,6 @@ int main()
 	PopulateGameBoard(game_board);
 
 	Player player = PlayerChoice();
-
-	// Test to hardcode a Item into Inventory, For LuLu ;)
-	int InventoryCounter = 1;
-	player.equipItem(Weapon("Sword", 10, 10));
-
-	// you can use displayInventory to check if youve added stuff to inventory properly
-	player.displayInventory(player.Inventory, InventoryCounter);
 
 	GameOptions(game_board, player);
 
@@ -76,22 +75,28 @@ static void PopulateGameBoard(vector<vector<Square>>& game_board) {
 	Ring("Ring of Life", 1, 10, 0, 0),
 	Ring("Ring of Strength", 1, 0, 50, 10),
 	};
+	random_device rd;
+	mt19937 gen(rd());
+
+	uniform_int_distribution<> randomEnemyDist(0, 4);
+	uniform_int_distribution<> randomItemTypeDist(0, 3);
+	uniform_int_distribution<> randomItemDist(0, 1);
 
 	for (int i = 0; i < ROW; ++i)
 	{
 		for (int j = 0; j < COLUMN; ++j)
 		{
-			int randomValue = rand() % 2;
+			int randomValue = randomItemDist(gen);
 			if (randomValue == 0) {
-				int randomEnemy = rand() % 5;
+				int randomEnemy = randomEnemyDist(gen);
 				Square square = Square(characters[randomEnemy]);
 				game_board[i][j] = square;
 			}
 			else
 			{
-				int randomItemType = rand() % 4;
-				int randomItem = rand() % 2;
-				switch (randomItemType) {
+				int randomItemType = randomItemTypeDist(gen);
+				int randomItem = randomItemDist(gen);
+				switch (0) {
 				case 0:
 					game_board[i][j] = Square(weapons[randomItem]);
 					break;
@@ -188,6 +193,10 @@ static void SquareInformation(vector<vector<Square>>& game_board) {
 		{
 			currentSquare.shield.displayInfo();
 		}
+		else
+		{
+			cout << "This square is empty" << endl;
+		}
 	}
 }
 
@@ -212,23 +221,19 @@ void GameOptions(vector<vector<Square>> game_board, Player player)
 			break;
 
 		case 'P':
-			// Code for command 'q'
-			std::cout << "Exiting the program." << std::endl;
+			pickUp(game_board, player);
 			break;
 
 		case 'D':
-			// Code for command 'q'
-			std::cout << "Exiting the program." << std::endl;
+			drop(game_board, player);
 			break;
 
 		case 'L':
-			// Code for command 'q'
 			SquareInformation(game_board);
 			break;
 
 		case 'I':
-			// Code for command 'q'
-			std::cout << "Exiting the program." << std::endl;
+			player.displayInventory(InventoryCounter);
 			break;
 
 		case 'X':
@@ -249,7 +254,7 @@ void performAttack(vector<vector<Square>>& game_board, Player& player)
 	if (currentSquare.hasEnemy && !(currentSquare.character.health <= 0))
 	{
 		Character& currentEnemy = currentSquare.character;
-		player.health = 200;
+		//player.health = 200;
 		currentEnemy.health -= player.attackMove(currentEnemy);
 		player.health -= currentEnemy.attackMove(player);
 		if (player.health <= 0) 
@@ -268,6 +273,18 @@ void performAttack(vector<vector<Square>>& game_board, Player& player)
 	}
 }
 
+void drop(vector<vector<Square>>& game_board, Player& player)
+{
+	int itemIndex;
+	cout << "which item do you want to drop ? 1 / 2/ 3 /4 /5";
+	cin >> itemIndex;
+	player.displayInventory(itemIndex);
+	player.dropItem(itemIndex - 1);
+	cout << "you erased an item";
+	InventoryCounter--;
+	player.displayInventory( InventoryCounter);
+}
+
 void EndGame(Player& player)
 {
 	cout << "Game Over!" << endl;
@@ -278,17 +295,22 @@ Player PlayerChoice()
 {
 	int characterChoice;
 
-	for (Character character : characters) {
-		cout << "Race: " << character.race << "\n";
-		cout << "Attack: " << character.attack << "\n";
-		cout << "Defense: " << character.defence << "\n";
-		cout << "Health: " << character.health << "\n";
-		cout << "Strength: " << character.strength << "\n";
-		cout << "Defense Chance: " << character.defenseChance << "\n";
-		cout << "Attack Chance: " << character.attackChance << "\n\n";
+	// Print header
+	std::cout << setw(10) << "Race" << std::setw(10) << "Attack" << std::setw(10) << "Defense"
+		<< std::setw(10) << "Health" << std::setw(10) << "Strength" << std::setw(15) << "Def. Chance"
+		<< std::setw(15) << "Att. Chance" << std::endl;
+
+	for (const Character& character : characters) {
+		// Print character details in a table format
+		std::cout << std::setw(10) << character.race << std::setw(10) << character.attack
+			<< std::setw(10) << character.defence << std::setw(10) << character.health
+			<< std::setw(10) << character.strength << std::setw(15) << character.defenseChance
+			<< std::setw(15) << character.attackChance << std::endl;
 	}
-	cout << "Choose youre character (1-5): ";
-	cin >> characterChoice;
+
+	std::cout << "Choose your character (1-5): ";
+	std::cin >> characterChoice;
+
 	return Player(characters[characterChoice - 1]);
 }
 
@@ -315,6 +337,47 @@ static void UpdateDayNight(vector<vector<Square>>& game_board) {
 
 	}
 }
+
+static void pickUp(vector<vector<Square>>& game_board, Player& player) {
+	Square currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
+
+
+	if (currentSquare.hasItem) {
+				if (currentSquare.hasWeapon){
+					player.equipItem(currentSquare.weapon);
+				}
+				else if (currentSquare.hasArmour) {
+					player.equipItem(currentSquare.armour);
+				}
+				else if (currentSquare.hasShield) {
+					player.equipItem(currentSquare.shield);
+				}
+				else if (currentSquare.hasRing) {
+					player.equipItem(currentSquare.ring);
+				}
+				game_board[CURRENTROW][CURRENTCOLUMN].hasItem = false;
+				game_board[CURRENTROW][CURRENTCOLUMN].hasWeapon = false;
+				game_board[CURRENTROW][CURRENTCOLUMN].hasArmour = false;
+				game_board[CURRENTROW][CURRENTCOLUMN].hasShield = false;
+				game_board[CURRENTROW][CURRENTCOLUMN].hasRing = false;
+				InventoryCounter++;
+			}
+
+}
+
+//bool hasItemType(const Item& item, const vector<Item>& Inventory) {
+//	for (const auto& inventoryItem : Inventory) {
+//		const auto derivedItem = dynamic_cast<const std::shared_ptr<Item>*>(&inventoryItem);
+//		const auto derivedItemOfItem = dynamic_cast<const std::shared_ptr<Item>*>(&item);
+//
+//		if (derivedItem != nullptr && derivedItemOfItem != nullptr && *derivedItem == *derivedItemOfItem) {
+//			// Item of the same type found in the inventory
+//			return true;
+//		}
+//	}
+//	// Item type not found in the inventory
+//	return false;
+//}
 
 
 

@@ -6,10 +6,12 @@
 using namespace std;
 class Player : public Character {
 public:
-	vector<Item>* Inventory;
+	vector<Item*>* Inventory;
 	int gold;
+	int totalWeight;
 	Player(Character c);
-	void equipItem(const Item& item);
-	int calculateDamage();
-	void displayInventory(vector<Item>* inventory, int length);
+	bool equipItem(const Item& item);
+	void displayInventory(int length);
+	void dropItem(int itemIndex);
+	void displayPlayerProperties();
 };
