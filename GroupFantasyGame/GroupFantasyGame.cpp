@@ -16,15 +16,17 @@
 using namespace std;
 
 void PopulateGameBoard(vector<vector<Square>>& game_board);
-void MakeMove(vector<vector<Square>>& game_board, char direction);
+bool MakeMove(vector<vector<Square>>& game_board, char direction);
 void SquareInformation(vector<vector<Square>>& game_board);
 void GameOptions(vector<vector<Square>> game_board, Player player);
 void performAttack(vector<vector<Square>>& game_board, Player& player);
 void pickUp(vector<vector<Square>>& game_board, Player& player);
 void drop(vector<vector<Square>>& game_board, Player& player);
 void EndGame(Player& player);
+void UpdateDayNight(vector<vector<Square>>& game_board, Player& player);
 //bool hasItemType(const Item& item, const vector<Item>& Inventory);
 Player PlayerChoice();
+
 
 int ROW;
 int COLUMN;
@@ -96,7 +98,7 @@ static void PopulateGameBoard(vector<vector<Square>>& game_board) {
 			{
 				int randomItemType = randomItemTypeDist(gen);
 				int randomItem = randomItemDist(gen);
-				switch (0) {
+				switch (randomItemType) {
 				case 0:
 					game_board[i][j] = Square(weapons[randomItem]);
 					break;
@@ -118,7 +120,8 @@ static void PopulateGameBoard(vector<vector<Square>>& game_board) {
 	}
 }
 
-static void MakeMove(vector<vector<Square>>& game_board, char direction) {
+static bool MakeMove(vector<vector<Square>>& game_board, char direction) {
+	bool validMove = false;
 	switch (direction) {
 	case 'N':
 		if (CURRENTROW == 0)
@@ -128,6 +131,7 @@ static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 		else
 		{
 			CURRENTROW--;
+			validMove = true;
 		}
 		break;
 
@@ -139,6 +143,7 @@ static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 		else
 		{
 			CURRENTROW++;
+			validMove = true;
 		}
 		break;
 
@@ -150,6 +155,7 @@ static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 		else
 		{
 			CURRENTCOLUMN--;
+			validMove = true;
 		}
 		break;
 
@@ -161,9 +167,11 @@ static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 		else
 		{
 			CURRENTCOLUMN++;
+			validMove = true;
 		}
 		break;
 	}
+	return validMove;
 }
 
 static void SquareInformation(vector<vector<Square>>& game_board) {
@@ -199,7 +207,10 @@ void GameOptions(vector<vector<Square>> game_board, Player player)
 		case 'S':
 		case 'W':
 		case 'E':
-			MakeMove(game_board, userInput);
+			if(MakeMove(game_board, userInput))
+			{
+				UpdateDayNight(game_board, player);
+			}
 			break;
 		case 'A':
 			performAttack(game_board, player);
@@ -298,27 +309,26 @@ Player PlayerChoice()
 	return Player(characters[characterChoice - 1]);
 }
 
-static void UpdateDayNight(vector<vector<Square>>& game_board) {
+static void UpdateDayNight(vector<vector<Square>>& game_board, Player& player) {
 
 	MOVECOUNTER++;
 	if (MOVECOUNTER % 5 == 0) {
 		ISDAY = !ISDAY;
-	}
-
-	if (!ISDAY)
-	{
+		if (player.race == "Orc")
+		{
+			player.UpdateEnemyOnTimeOfDay(ISDAY);
+		}
 		list<Character> enemies;
 		for (int i = 0; i < ROW; ++i)
 		{
 			for (int j = 0; j < COLUMN; ++j)
 			{
-				if (game_board[ROW][COLUMN].hasEnemy && game_board[ROW][COLUMN].character.race == "Orc")
+				if (game_board[i][j].hasEnemy && game_board[i][j].character.race == "Orc")
 				{
-					game_board[ROW][COLUMN].character.UpdateEnemyOnTimeOfDay(game_board[ROW][COLUMN].character);
+					game_board[i][j].character.UpdateEnemyOnTimeOfDay(ISDAY);
 				}
 			}
 		}
-
 	}
 }
 

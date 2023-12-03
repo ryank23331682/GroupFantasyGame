@@ -15,7 +15,7 @@ public:
 	int strength;
 	double defenseChance;
 	double attackChance;
-	void UpdateEnemyOnTimeOfDay(Character enemy);
+	void UpdateEnemyOnTimeOfDay(bool isDay);
 	int defendMove(int& incomingDamage);
 	int attackMove(Character& enemy);
 

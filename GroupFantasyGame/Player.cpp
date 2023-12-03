@@ -43,11 +43,13 @@ bool Player::equipItem(const Item& item)
 		}
 		if (armourPtr != nullptr)
 		{
+			Inventory->push_back(new Armour(*armourPtr));
 			// Access weapon properties
 			defence += armourPtr->defenseBonus;
 		}
 		if (ringPtr != nullptr)
 		{
+			Inventory->push_back(new Ring(*ringPtr));
 			// Access weapon properties
 			health += ringPtr->healthBonus;
 			health -= ringPtr->healthPenalty;
@@ -55,6 +57,7 @@ bool Player::equipItem(const Item& item)
 		}
 		if (shieldPtr != nullptr)
 		{
+			Inventory->push_back(new Shield(*shieldPtr));
 			// Access weapon properties
 			defence += shieldPtr->defenseBonus;
 			attack -= shieldPtr->attackPenalty;
