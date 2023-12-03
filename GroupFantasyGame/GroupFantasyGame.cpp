@@ -175,28 +175,13 @@ static void SquareInformation(vector<vector<Square>>& game_board) {
 		cout << "This Square has an enemy with race: " << currentEnemy.race << ", attack: " << currentEnemy.attack
 			<< ", defense: " << currentEnemy.defence << ", health: " << currentEnemy.health << endl;
 	}
-	if (currentSquare.hasItem)
+	else if(currentSquare.item != nullptr)
 	{
-		if (currentSquare.hasArmour)
-		{
-			currentSquare.armour.displayInfo();
-		}
-		else if (currentSquare.hasWeapon)
-		{
-			currentSquare.weapon.displayInfo();
-		}
-		else if (currentSquare.hasRing)
-		{
-			currentSquare.ring.displayInfo();
-		}
-		else if (currentSquare.hasShield)
-		{
-			currentSquare.shield.displayInfo();
-		}
-		else
-		{
-			cout << "This square is empty" << endl;
-		}
+		currentSquare.item->displayInfo();
+	}
+	else
+	{
+		cout << "This square is empty" << endl;
 	}
 }
 
@@ -254,7 +239,6 @@ void performAttack(vector<vector<Square>>& game_board, Player& player)
 	if (currentSquare.hasEnemy && !(currentSquare.character.health <= 0))
 	{
 		Character& currentEnemy = currentSquare.character;
-		//player.health = 200;
 		currentEnemy.health -= player.attackMove(currentEnemy);
 		player.health -= currentEnemy.attackMove(player);
 		if (player.health <= 0) 
@@ -339,45 +323,27 @@ static void UpdateDayNight(vector<vector<Square>>& game_board) {
 }
 
 static void pickUp(vector<vector<Square>>& game_board, Player& player) {
-	Square currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
+	Square& currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
 
-
-	if (currentSquare.hasItem) {
-				if (currentSquare.hasWeapon){
-					player.equipItem(currentSquare.weapon);
-				}
-				else if (currentSquare.hasArmour) {
-					player.equipItem(currentSquare.armour);
-				}
-				else if (currentSquare.hasShield) {
-					player.equipItem(currentSquare.shield);
-				}
-				else if (currentSquare.hasRing) {
-					player.equipItem(currentSquare.ring);
-				}
-				game_board[CURRENTROW][CURRENTCOLUMN].hasItem = false;
-				game_board[CURRENTROW][CURRENTCOLUMN].hasWeapon = false;
-				game_board[CURRENTROW][CURRENTCOLUMN].hasArmour = false;
-				game_board[CURRENTROW][CURRENTCOLUMN].hasShield = false;
-				game_board[CURRENTROW][CURRENTCOLUMN].hasRing = false;
-				InventoryCounter++;
-			}
-
+	if (!currentSquare.hasEnemy && currentSquare.item != nullptr) 
+	{
+		player.equipItem(*(currentSquare.getItem()));
+		game_board[CURRENTROW][CURRENTCOLUMN].item = nullptr;  
+		InventoryCounter++;
+	}
 }
 
-//bool hasItemType(const Item& item, const vector<Item>& Inventory) {
-//	for (const auto& inventoryItem : Inventory) {
-//		const auto derivedItem = dynamic_cast<const std::shared_ptr<Item>*>(&inventoryItem);
-//		const auto derivedItemOfItem = dynamic_cast<const std::shared_ptr<Item>*>(&item);
-//
-//		if (derivedItem != nullptr && derivedItemOfItem != nullptr && *derivedItem == *derivedItemOfItem) {
-//			// Item of the same type found in the inventory
-//			return true;
-//		}
-//	}
-//	// Item type not found in the inventory
-//	return false;
-//}
+bool hasItemType(const Item& item, const vector<Item>& Inventory) {
+	//for (const auto& inventoryItem : Inventory) {
+
+	//	if (derivedItem != nullptr && derivedItemOfItem != nullptr && *derivedItem == *derivedItemOfItem) {
+	//		// Item of the same type found in the inventory
+	//		return true;
+	//	}
+	//}
+	// Item type not found in the inventory
+	return false;
+}
 
 
 
