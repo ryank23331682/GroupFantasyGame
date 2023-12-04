@@ -11,6 +11,14 @@ Armour::Armour()
 {
 }
 
+/*
+* Armour::displayInfo()
+* Displays Armour info
+*
+* parameter: none
+* return: no return value
+*
+*/
 void Armour::displayInfo() {
 	std::cout << "Armour: " << name << ", Weight: " << weight << ", Defense Bonus: " << defenseBonus << ", Attack Penalty: " << attackPenalty << "\n";
 } 
