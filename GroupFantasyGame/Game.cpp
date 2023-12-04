@@ -37,12 +37,10 @@ void Game::run()
 	populateGameBoard();
 	PlayerChoice();
 	GameOptions();
-
 }
 
-void Game::populateGameBoard() {
-
-
+void Game::populateGameBoard() 
+{
 	random_device rd;
 	mt19937 gen(rd());
 
@@ -55,7 +53,8 @@ void Game::populateGameBoard() {
 		for (int j = 0; j < COLUMN; ++j)
 		{
 			int randomValue = randomItemDist(gen);
-			if (randomValue == 0) {
+			if (randomValue == 0) 
+			{
 				int randomEnemy = randomEnemyDist(gen);
 				Square square = Square(characters[randomEnemy]);
 				game_board[i][j] = square;
@@ -89,54 +88,54 @@ void Game::populateGameBoard() {
 bool Game::MakeMove(vector<vector<Square>>& game_board, char direction)
 {
 	bool validMove = false;
-	switch (direction) {
-	case 'N':
-		if (CURRENTROW == 0)
-		{
-			cout << "Cannot Move north from this position\n";
-		}
-		else
-		{
-			CURRENTROW--;
-			validMove = true;
-		}
-		break;
+	switch (direction) 
+	{
+		case 'N':
+			if (CURRENTROW == 0)
+			{
+				cout << "Cannot Move north from this position\n";
+			}
+			else
+			{
+				CURRENTROW--;
+				validMove = true;
+			}
+			break;
 
-	case 'S':
-		if (CURRENTROW == ROW - 1)
-		{
-			cout << "Cannot Move south from this position\n";
-		}
-		else
-		{
-			CURRENTROW++;
-			validMove = true;
-		}
-		break;
+		case 'S':
+			if (CURRENTROW == ROW - 1)
+			{
+				cout << "Cannot Move south from this position\n";
+			}
+			else
+			{
+				CURRENTROW++;
+				validMove = true;
+			}
+			break;
 
-	case 'W':
-		if (CURRENTCOLUMN == 0)
-		{
-			cout << "Cannot Move West from this position\n";
-		}
-		else
-		{
-			CURRENTCOLUMN--;
-			validMove = true;
-		}
-		break;
-
-	case 'E':
-		if (CURRENTCOLUMN == COLUMN - 1)
-		{
-			cout << "Cannot Move East from this position\n";
-		}
-		else
-		{
-			CURRENTCOLUMN++;
-			validMove = true;
-		}
-		break;
+		case 'W':
+			if (CURRENTCOLUMN == 0)
+			{
+				cout << "Cannot Move West from this position\n";
+			}
+			else
+			{
+				CURRENTCOLUMN--;
+				validMove = true;
+			}
+			break;
+		case 'E':
+			if (CURRENTCOLUMN == COLUMN - 1)
+			{
+				cout << "Cannot Move East from this position\n";
+			}
+			else
+			{
+				CURRENTCOLUMN++;
+				validMove = true;
+			}
+			break;
 	}
 	return validMove;
 }
@@ -164,49 +163,49 @@ void Game::SquareInformation(vector<vector<Square>>& game_board)
 void Game::GameOptions()
 {
 	char userInput;
-
-	do {
+	do 
+	{
 		cout << "Current Position = (" << CURRENTROW << ", " << CURRENTCOLUMN << ")\n";
 		cout << "Enter a command (N, W, S, E) or (A)ttack, (P)ick up, (D)rop, (L)ook, (I)nventroy, (Ex)it\n";
 		cin >> userInput;
 		cout << endl;
-		switch (userInput) {
-		case 'N':
-		case 'S':
-		case 'W':
-		case 'E':
-			if (MakeMove(game_board, userInput))
-			{
-				UpdateDayNight(game_board, player);
-			}
-			break;
-		case 'A':
-			performAttack(game_board, player);
-			break;
+		switch (userInput) 
+		{
+			case 'N':
+			case 'S':
+			case 'W':
+			case 'E':
+				if (MakeMove(game_board, userInput))
+				{
+					UpdateDayNight(game_board, player);
+				}
+				break;
+			case 'A':
+				performAttack(game_board, player);
+				break;
 
-		case 'P':
-			pickUp(game_board, player);
-			break;
+			case 'P':
+				pickUp(game_board, player);
+				break;
 
-		case 'D':
-			drop(game_board, player);
-			break;
+			case 'D':
+				drop(game_board, player);
+				break;
 
-		case 'L':
-			SquareInformation(game_board);
-			break;
+			case 'L':
+				SquareInformation(game_board);
+				break;
 
-		case 'I':
-			player.displayInventory(InventoryCounter);
-			break;
+			case 'I':
+				player.displayInventory(InventoryCounter);
+				break;
 
-		case 'X':
-			exit(0);
+			case 'X':
+				exit(0);
 
-		default:
-			// Code for handling invalid input
-			std::cout << "Invalid command. Please enter a, b, c, or q." << std::endl;
-			break;
+			default:
+				std::cout << "Invalid command. Please enter a, b, c, or q." << std::endl;
+				break;
 		}
 	} while (userInput);
 }
@@ -220,7 +219,8 @@ void Game::PlayerChoice()
 		<< std::setw(10) << "Health" << std::setw(10) << "Strength" << std::setw(15) << "Def. Chance"
 		<< std::setw(15) << "Att. Chance" << std::endl;
 
-	for (const Character& character : characters) {
+	for (const Character& character : characters)
+	{
 		// Print character details in a table format
 		std::cout << std::setw(10) << character.race << std::setw(10) << character.attack
 			<< std::setw(10) << character.defence << std::setw(10) << character.health
@@ -282,7 +282,8 @@ void Game::EndGame(Player& player)
 void Game::UpdateDayNight(vector<vector<Square>>& game_board, Player& player)
 {
 	MOVECOUNTER++;
-	if (MOVECOUNTER % 5 == 0) {
+	if (MOVECOUNTER % 5 == 0) 
+	{
 		ISDAY = !ISDAY;
 		if (player.race == "Orc")
 		{

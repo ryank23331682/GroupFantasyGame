@@ -13,7 +13,8 @@ Weapon::Weapon()
 	attackBonus = 0;
 }
 
-void Weapon::displayInfo() {
+void Weapon::displayInfo() 
+{
 	cout << "Weapon: " << name << ", Weight: " << weight << ", Attack Bonus: " << attackBonus << "\n";
 }
 

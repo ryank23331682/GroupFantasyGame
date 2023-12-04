@@ -23,8 +23,10 @@ string Item::itemType()
 
 bool Item::hasItemType(const vector<Item*>& Inventory)
 {
-    for (const auto& inventoryItem : Inventory) {
-        if (inventoryItem->itemType() == itemType()) {
+    for (const auto& inventoryItem : Inventory) 
+    {
+        if (inventoryItem->itemType() == itemType()) 
+        {
             // Item of the same type found in the inventory 
             return true;
         }

@@ -15,7 +15,7 @@ Character::Character()
 Character::Character(string race, int attack, int defence, int health, int strength, double defenseChance, double attackChance)
 	: race(race), attack(attack), defence(defence), health(health), strength(strength), defenseChance(defenseChance), attackChance(attackChance)
 {
-	// Additional initialization code if needed
+
 }
 
 void Character::UpdateEnemyOnTimeOfDay(bool isDay)
@@ -34,6 +34,5 @@ void Character::UpdateEnemyOnTimeOfDay(bool isDay)
 		attackChance = 1.00;
 		defenseChance = 0.50;
 	}
-
 }
 

@@ -76,20 +76,24 @@ void Player::displayInventory(int length)
 {
 	cout << "Inventory:\n";
 	// Check if the pointer is not null before accessing its elements
-	if (Inventory != nullptr) {
-		for (auto& inventoryItem : *Inventory) {
+	if (Inventory != nullptr) 
+	{
+		for (auto& inventoryItem : *Inventory) 
+		{
 			// Assuming the name uniquely identifies the item type
 			inventoryItem->displayInfo();
 		}
 	}
 }
-int Character::defendMove(int& incomingDamage) {
+int Character::defendMove(int& incomingDamage) 
+{
 	std::random_device rd;
 	std::mt19937 gen(rd());  // Standard mersenne_twister_engine
 	std::uniform_real_distribution<> randomValueDist(0.0, 1.0);
 	double randomValue = randomValueDist(gen);
 
-	if (randomValue < defenseChance) {
+	if (randomValue < defenseChance) 
+	{
 		// Successful defense
 		int actualDamage = std::max(0, incomingDamage - defence);
 			health -= actualDamage;
@@ -98,29 +102,34 @@ int Character::defendMove(int& incomingDamage) {
 
 		return actualDamage;  // Defense succeeded
 	}
-	else {
+	else 
+	{
 		std::cout << race << "'s defense failed. Incoming damage: " << incomingDamage << std::endl;
 		return 0;  // Defense failed
 	}
 }
 
-int Character::attackMove(Character& enemy) {
+int Character::attackMove(Character& enemy) 
+{
 	std::random_device rd;
 	std::mt19937 gen(rd());  // Standard mersenne_twister_engine
 	std::uniform_real_distribution<> randomValueDist(0.0, 1.0);
 	double randomValue = randomValueDist(gen);
 
-	if (randomValue < attackChance) {
+	if (randomValue < attackChance) 
+	{
 		// Successful attack
 		int damage = enemy.attack;
 		int actualDamage = enemy.defendMove(damage);
-		if (actualDamage > 0) {
+		if (actualDamage > 0) 
+		{
 			std::cout << race << " successfully attacked " << enemy.race << ". Damage: " << damage << std::endl;
 		}
 
 		return actualDamage;  // Attack succeeded
 	}
-	else {
+	else 
+	{
 		std::cout << race << "'s attack failed." << std::endl;
 		return 0;  // Attack failed
 	}
@@ -169,7 +178,6 @@ void Player::dropItem(int itemIndex)
 			attack += shieldPtr->attackPenalty;
 		}
 	}
-	//displayPlayerProperties();
 }
 
 // Implementation of the new function
