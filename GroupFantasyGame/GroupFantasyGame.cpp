@@ -14,8 +14,6 @@
 #include "Player.h"
 using namespace std;
 
-//Double Comment here
-
 //Declare Functions
 void PopulateGameBoard(vector<vector<Square>>& game_board);
 void MakeMove(vector<vector<Square>>& game_board, char direction);
