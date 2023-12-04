@@ -16,8 +16,9 @@ public:
 	double defenseChance;
 	double attackChance;
 	void UpdateEnemyOnTimeOfDay(bool isDay);
-	int defendMove(int& incomingDamage);
-	int attackMove(Character& enemy);
+	int defendMove(int& incomingDamage, bool ISDAY);
+	int attackMove(Character& enemy, bool isDay);
+	void applySpecialAbilities(int& actualDamage, bool isDay);
 
 };
 

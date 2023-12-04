@@ -7,59 +7,59 @@
       <FileName>Inventory.cpp</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Armour" Collapsed="true">
+  <Class Name="Armour">
     <Position X="3" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAEAAAABgQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAEAAAABgQAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
       <FileName>Armour.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Player" Collapsed="true">
     <Position X="0.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAQAAAAAAAAEABAAAAAAAAAAAAAAAAAAAAwQAAAA=</HashCode>
+      <HashCode>AAAAAQAAAAAAAAAABAAAAAACAAAAAAAAAAAAAxQgAAA=</HashCode>
       <FileName>Player.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Character" Collapsed="true">
     <Position X="0.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAQAAAAEAAAAAAAACSAAAAAAACAQAAAAAAACAo=</HashCode>
+      <HashCode>AAAAAEAQAAAAEAAAAAAAACSAAAAAIACAQAAAAAAACAo=</HashCode>
       <FileName>Character.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Item" Collapsed="true">
+  <Class Name="Item">
     <Position X="4" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAABAAAAAEAAAEAAAgAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAABAAQAAEAAAEAAAgAAACAAAAAAA=</HashCode>
       <FileName>Item.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ring" Collapsed="true">
     <Position X="5.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QAAAAAAQAAAAAAAAABAAAAABAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>QAAAAAAQAAAAAAAAABAAAAABAEAAAAAAAAACAAAAAAA=</HashCode>
       <FileName>Ring.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Shield" Collapsed="true">
+  <Class Name="Shield">
     <Position X="0.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAEAEAAAABAQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAEAEAAAABAQAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
       <FileName>Shield.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Square" Collapsed="true">
     <Position X="7.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAIAAAAAAAAGAABAAAAAABACAAgAAACkAAhAAAAAAA=</HashCode>
+      <HashCode>AAAIAAAAQAAAAAAAABQAAAAAAAAAAAAAEAAgAAAAAAA=</HashCode>
       <FileName>Square.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Weapon" Collapsed="true">
     <Position X="7.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAgAAAEAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAgAAAECAAAAAAA=</HashCode>
       <FileName>Weapon.h</FileName>
     </TypeIdentifier>
   </Class>
