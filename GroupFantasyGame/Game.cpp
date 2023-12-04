@@ -8,10 +8,10 @@ Game::Game()
 {
 	cout << "Welcome to our fantasy Game!\n";
 	cout << "Enter in the rows of the board\n";
-	cin >> ROW;
+	cin >> row;
 	cout << "Enter in the columns of the board\n";
-	cin >> COLUMN;
-	game_board = vector<vector<Square>>(ROW, vector<Square>(COLUMN));
+	cin >> column;
+	game_board = vector<vector<Square>>(row, vector<Square>(column));
 
 	weapons[0] = Weapon("Sword", 10, 10);
 	weapons[1] = Weapon("Dagger", 5, 5);
@@ -35,8 +35,8 @@ Game::Game()
 void Game::run()
 {
 	populateGameBoard();
-	PlayerChoice();
-	GameOptions();
+	playerChoice();
+	gameOptions();
 }
 
 void Game::populateGameBoard() 
@@ -48,9 +48,9 @@ void Game::populateGameBoard()
 	uniform_int_distribution<> randomItemTypeDist(0, 3);
 	uniform_int_distribution<> randomItemDist(0, 1);
 
-	for (int i = 0; i < ROW; ++i)
+	for (int i = 0; i < row; ++i)
 	{
-		for (int j = 0; j < COLUMN; ++j)
+		for (int j = 0; j < column; ++j)
 		{
 			int randomValue = randomItemDist(gen);
 			if (randomValue == 0) 
@@ -85,54 +85,54 @@ void Game::populateGameBoard()
 	}
 }
 
-bool Game::MakeMove(vector<vector<Square>>& game_board, char direction)
+bool Game::makeMove(vector<vector<Square>>& game_board, char direction)
 {
 	bool validMove = false;
 	switch (direction) 
 	{
 		case 'N':
-			if (CURRENTROW == 0)
+			if (currentRow == 0)
 			{
 				cout << "Cannot Move north from this position\n";
 			}
 			else
 			{
-				CURRENTROW--;
+				currentRow--;
 				validMove = true;
 			}
 			break;
 
 		case 'S':
-			if (CURRENTROW == ROW - 1)
+			if (currentRow == row - 1)
 			{
 				cout << "Cannot Move south from this position\n";
 			}
 			else
 			{
-				CURRENTROW++;
+				currentRow++;
 				validMove = true;
 			}
 			break;
 
 		case 'W':
-			if (CURRENTCOLUMN == 0)
+			if (currentColumn == 0)
 			{
 				cout << "Cannot Move West from this position\n";
 			}
 			else
 			{
-				CURRENTCOLUMN--;
+				currentColumn--;
 				validMove = true;
 			}
 			break;
 		case 'E':
-			if (CURRENTCOLUMN == COLUMN - 1)
+			if (currentColumn == column - 1)
 			{
 				cout << "Cannot Move East from this position\n";
 			}
 			else
 			{
-				CURRENTCOLUMN++;
+				currentColumn++;
 				validMove = true;
 			}
 			break;
@@ -140,9 +140,9 @@ bool Game::MakeMove(vector<vector<Square>>& game_board, char direction)
 	return validMove;
 }
 
-void Game::SquareInformation(vector<vector<Square>>& game_board)
+void Game::squareInformation(vector<vector<Square>>& game_board)
 {
-	Square currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
+	Square currentSquare = game_board[currentRow][currentColumn];
 
 	if (currentSquare.hasEnemy)
 	{
@@ -160,12 +160,12 @@ void Game::SquareInformation(vector<vector<Square>>& game_board)
 	}
 }
 
-void Game::GameOptions()
+void Game::gameOptions()
 {
 	char userInput;
 	do 
 	{
-		cout << "Current Position = (" << CURRENTROW << ", " << CURRENTCOLUMN << ")\n";
+		cout << "Current Position = (" << currentRow << ", " << currentColumn << ")\n";
 		cout << "Enter a command (N, W, S, E) or (A)ttack, (P)ick up, (D)rop, (L)ook, (I)nventroy, (Ex)it\n";
 		cin >> userInput;
 		cout << endl;
@@ -175,9 +175,9 @@ void Game::GameOptions()
 			case 'S':
 			case 'W':
 			case 'E':
-				if (MakeMove(game_board, userInput))
+				if (makeMove(game_board, userInput))
 				{
-					UpdateDayNight(game_board, player);
+					updateDayNight(game_board, player);
 				}
 				break;
 			case 'A':
@@ -193,11 +193,11 @@ void Game::GameOptions()
 				break;
 
 			case 'L':
-				SquareInformation(game_board);
+				squareInformation(game_board);
 				break;
 
 			case 'I':
-				player.displayInventory(InventoryCounter);
+				player.displayInventory(inventoryCounter);
 				break;
 
 			case 'X':
@@ -210,7 +210,7 @@ void Game::GameOptions()
 	} while (userInput);
 }
 
-void Game::PlayerChoice()
+void Game::playerChoice()
 {
 	int characterChoice;
 
@@ -236,7 +236,7 @@ void Game::PlayerChoice()
 
 bool Game::performAttack(vector<vector<Square>>& game_board, Player& player)
 {
-	Square& currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
+	Square& currentSquare = game_board[currentRow][currentColumn];
 
 	if (currentSquare.hasEnemy && !(currentSquare.character.health <= 0))
 	{
@@ -246,7 +246,7 @@ bool Game::performAttack(vector<vector<Square>>& game_board, Player& player)
 		if (player.health <= 0)
 		{
 			return true;
-			EndGame(player);
+			endGame(player);
 		}
 		else if (currentEnemy.health <= 0)
 		{
@@ -269,34 +269,34 @@ void Game::drop(vector<vector<Square>>& game_board, Player& player)
 	player.displayInventory(itemIndex);
 	player.dropItem(itemIndex - 1);
 	cout << "you erased an item";
-	InventoryCounter--;
-	player.displayInventory(InventoryCounter);
+	inventoryCounter--;
+	player.displayInventory(inventoryCounter);
 }
 
-void Game::EndGame(Player& player)
+void Game::endGame(Player& player)
 {
 	cout << "Game Over!" << endl;
 	cout << "Player's Gold: " << player.gold << endl;
 }
 
-void Game::UpdateDayNight(vector<vector<Square>>& game_board, Player& player)
+void Game::updateDayNight(vector<vector<Square>>& game_board, Player& player)
 {
-	MOVECOUNTER++;
-	if (MOVECOUNTER % 5 == 0) 
+	moveCounter++;
+	if (moveCounter % 5 == 0)
 	{
-		ISDAY = !ISDAY;
+		isDay = !isDay;
 		if (player.race == "Orc")
 		{
-			player.UpdateEnemyOnTimeOfDay(ISDAY);
+			player.UpdateEnemyOnTimeOfDay(isDay);
 		}
 		list<Character> enemies;
-		for (int i = 0; i < ROW; ++i)
+		for (int i = 0; i < row; ++i)
 		{
-			for (int j = 0; j < COLUMN; ++j)
+			for (int j = 0; j < column; ++j)
 			{
 				if (game_board[i][j].hasEnemy && game_board[i][j].character.race == "Orc")
 				{
-					game_board[i][j].character.UpdateEnemyOnTimeOfDay(ISDAY);
+					game_board[i][j].character.UpdateEnemyOnTimeOfDay(isDay);
 				}
 			}
 		}
@@ -305,15 +305,15 @@ void Game::UpdateDayNight(vector<vector<Square>>& game_board, Player& player)
 
 void Game::pickUp(vector<vector<Square>>& game_board, Player& player)
 {
-	Square& currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
+	Square& currentSquare = game_board[currentRow][currentColumn];
 	bool alreadyHasItem = currentSquare.item->hasItemType(*player.Inventory);
 	if (!currentSquare.hasEnemy && currentSquare.item != nullptr)
 	{
 		if (!alreadyHasItem)
 		{
 			player.equipItem(*(currentSquare.getItem()));
-			game_board[CURRENTROW][CURRENTCOLUMN].item = nullptr;
-			InventoryCounter++;
+			game_board[currentRow][currentColumn].item = nullptr;
+			inventoryCounter++;
 		}
 		else
 		{

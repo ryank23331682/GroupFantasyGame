@@ -9,7 +9,8 @@ public:
 	int weight;
 	Item(string n, int w);
 	Item();
-	virtual void displayInfo();
-	virtual string itemType();
+	virtual ~Item(); 
+	virtual void displayInfo() = 0;
+	virtual string itemType() = 0;
 	bool hasItemType(const vector<Item*>& Inventory);
 };
