@@ -1,4 +1,5 @@
 #include "Character.h"
+#include<iostream>
 #include <string>
 #include <list>
 using namespace std;
@@ -34,6 +35,5 @@ void Character::UpdateEnemyOnTimeOfDay(bool isDay)
 		attackChance = 1.00;
 		defenseChance = 0.50;
 	}
-
 }
 

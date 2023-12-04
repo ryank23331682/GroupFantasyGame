@@ -182,7 +182,7 @@ static void SquareInformation(vector<vector<Square>>& game_board) {
 		cout << "This Square has an enemy with race: " << currentEnemy.race << ", attack: " << currentEnemy.attack
 			<< ", defense: " << currentEnemy.defence << ", health: " << currentEnemy.health << endl;
 	}
-	else if(currentSquare.item != nullptr)
+	else if (currentSquare.item != nullptr)
 	{
 		currentSquare.item->displayInfo();
 	}
@@ -206,7 +206,7 @@ void GameOptions(vector<vector<Square>> game_board, Player player)
 		case 'S':
 		case 'W':
 		case 'E':
-			if(MakeMove(game_board, userInput))
+			if (MakeMove(game_board, userInput))
 			{
 				UpdateDayNight(game_board, player);
 			}
@@ -249,13 +249,13 @@ void performAttack(vector<vector<Square>>& game_board, Player& player)
 	if (currentSquare.hasEnemy && !(currentSquare.character.health <= 0))
 	{
 		Character& currentEnemy = currentSquare.character;
-		currentEnemy.health -= player.attackMove(currentEnemy);
-		player.health -= currentEnemy.attackMove(player);
-		if (player.health <= 0) 
+		currentEnemy.health -= player.attackMove(currentEnemy, ISDAY);
+		player.health -= currentEnemy.attackMove(player, ISDAY);
+		if (player.health <= 0)
 		{
 			EndGame(player);
 		}
-		else if (currentEnemy.health <= 0) 
+		else if (currentEnemy.health <= 0)
 		{
 			cout << "Enemy Defeated, you gain 20 gold!" << endl;
 			player.gold += 20;
@@ -276,7 +276,7 @@ void drop(vector<vector<Square>>& game_board, Player& player)
 	player.dropItem(itemIndex - 1);
 	cout << "you erased an item";
 	InventoryCounter--;
-	player.displayInventory( InventoryCounter);
+	player.displayInventory(InventoryCounter);
 }
 
 void EndGame(Player& player)

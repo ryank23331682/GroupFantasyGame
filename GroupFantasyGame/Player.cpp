@@ -20,10 +20,10 @@ Player::Player(Character c)
 bool Player::equipItem(const Item& item)
 {
 
-	if (item.weight + totalWeight > strength) 
+	if (item.weight + totalWeight > strength)
 	{
 		return false;
-	} 
+	}
 	else
 	{
 		//Inventory->push_back(item);
@@ -79,7 +79,7 @@ void Player::displayInventory(int length)
 		}
 	}
 }
-int Character::defendMove(int& incomingDamage) {
+int Character::defendMove(int& incomingDamage, bool ISDAY) {
 	std::random_device rd;
 	std::mt19937 gen(rd());  // Standard mersenne_twister_engine
 	std::uniform_real_distribution<> randomValueDist(0.0, 1.0);
@@ -88,7 +88,8 @@ int Character::defendMove(int& incomingDamage) {
 	if (randomValue < defenseChance) {
 		// Successful defense
 		int actualDamage = std::max(0, incomingDamage - defence);
-			health -= actualDamage;
+		applySpecialAbilities(actualDamage, ISDAY);
+		health -= actualDamage;
 
 		std::cout << race << " successfully defended. Damage reduced to " << actualDamage << ". Remaining health: " << health << std::endl;
 
@@ -100,7 +101,7 @@ int Character::defendMove(int& incomingDamage) {
 	}
 }
 
-int Character::attackMove(Character& enemy) {
+int Character::attackMove(Character& enemy, bool isDay) {
 	std::random_device rd;
 	std::mt19937 gen(rd());  // Standard mersenne_twister_engine
 	std::uniform_real_distribution<> randomValueDist(0.0, 1.0);
@@ -109,7 +110,7 @@ int Character::attackMove(Character& enemy) {
 	if (randomValue < attackChance) {
 		// Successful attack
 		int damage = enemy.attack;
-		int actualDamage = enemy.defendMove(damage);
+		int actualDamage = enemy.defendMove(damage, isDay);
 		if (actualDamage > 0) {
 			std::cout << race << " successfully attacked " << enemy.race << ". Damage: " << damage << std::endl;
 		}
@@ -121,6 +122,8 @@ int Character::attackMove(Character& enemy) {
 		return 0;  // Attack failed
 	}
 }
+
+
 
 void Player::dropItem(int itemIndex)
 {
@@ -184,6 +187,26 @@ void Player::displayPlayerProperties()
 
 }
 
+void Character::applySpecialAbilities(int& actualDamage, bool isDay)
+{
+	if (race == "Human" || race == "Dwarf") {
+		health -= actualDamage;
+	}
+	else if (race == "Elf") {
+		health += 1;
+	}
+	else if (race == "Hobbit") {
+		int hobbitDamage = rand() % 5;
+		health -= hobbitDamage;
+		std::cout << race << " successfully defended. Damage caused: " << hobbitDamage << ". Remaining health: " << health << std::endl;
+	}
+	else if (race == "Orc") {
+		if (!isDay) {
+
+			health += 1;
+		}
+	}
+}
 
 
 
