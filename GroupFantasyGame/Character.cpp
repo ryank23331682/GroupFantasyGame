@@ -18,6 +18,14 @@ Character::Character(string race, int attack, int defence, int health, int stren
 	// Additional initialization code if needed
 }
 
+/*
+* UpdateEnemyOntimeOfDay(character)
+* Computes the values of character attack, attachk chance and defence chance,    
+*
+* parameter: character character
+* return: no return value
+*
+*/
 void UpdateEnemyOnTimeOfDay(Character character)
 {
 
