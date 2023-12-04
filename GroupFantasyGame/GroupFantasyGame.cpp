@@ -185,7 +185,7 @@ static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 * SquareInformation(Vector)
 * computes whether the space has an enemey its race, abilities and special race abilities .... or if the space is empty.
 *
-* parameter: none
+* parameter: vector - holds current square position i.e. Row x Column position.
 *
 * return: none
 *
@@ -224,7 +224,8 @@ static void SquareInformation(vector<vector<Square>>& game_board) {
 * GameOptions(Vector, player)
 * Computes current position, prompts the user to enter a direction command or the other rules of the game i.e. Attack, Pick up, Drop, Look, Inventory or Exit.
 *
-* parameter: Player player
+* parameter: vector - holds current square position i.e. Row x Column position.
+			 Player player
 *
 * return: none
 *
@@ -311,7 +312,7 @@ Player PlayerChoice()
 * UpdateDayNight(vector)
 * computes Day to Night and Night to Day Mode based on the number of moves i.e. 5.
 *
-* parameters: none
+* parameters: vector - holds current square position i.e. Row x Column position.
 *
 * return: none.
 */
