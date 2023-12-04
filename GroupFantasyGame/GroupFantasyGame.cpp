@@ -19,15 +19,20 @@
 #include "Player.h"
 using namespace std;
 
+//Declare Functions
 void InitialiseGameBoard(vector<vector<Square>>& game_board);
 void MakeMove(vector<vector<Square>>& game_board, char direction);
 void SquareInformation(vector<vector<Square>>& game_board);
+
+//Declare Row and Column for Board Dimensions
 int ROW;
 int COLUMN;
 int CURRENTROW = 0;
 int CURRENTCOLUMN = 0;
 bool ISDAY = true;
 int MOVECOUNTER = 0;
+
+//Declare Character Array
 Character characters[5] = {
 	Character("Human", 30, 20, 60, 100, 0.50, 0.67),
 	Character("Elf", 40, 10, 40, 70, 0.25, 1.00),
@@ -97,7 +102,14 @@ int main()
 	return EXIT_SUCCESS;
 }
 
-//Comment here
+/*
+* PopulateGameBoard(vector)
+* Fills gameboard values based off item array i.e. Weapon,Armour, Shield etc.
+* 
+* parameter: none
+* return: no return value
+* 
+*/
 static void PopulateGameBoard(vector<vector<Square>>& game_board) {
 
 	Weapon weapons[2] = {
@@ -159,6 +171,16 @@ static void PopulateGameBoard(vector<vector<Square>>& game_board) {
 	}
 }
 
+/*
+* MakeMove(vector, direction)
+* This functions moves a space on the board depending on the input "N", "S", "W" and "E".
+* 
+* parameter: char direction - direction "N", "S", "E", "W".
+* 
+* return: validmove in boolean (True / False)
+* 
+*/
+
 static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 	switch (direction) {
 	case 'N':
@@ -212,6 +234,16 @@ static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 	return validMove;
 }
 //Comment here
+
+/*
+* SquareInformation(Vector)
+* computes whether the space has an enemey its race, abilities and special race abilities .... or if the space is empty.
+* 
+* parameter: none
+* 
+* return: none
+* 
+*/
 static void SquareInformation(vector<vector<Square>>& game_board) {
 	Square currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
 
@@ -230,6 +262,7 @@ static void SquareInformation(vector<vector<Square>>& game_board) {
 		cout << "This square is empty" << endl;
 	}
 }
+
 
 void GameOptions(vector<vector<Square>> game_board, Player player)
 {
