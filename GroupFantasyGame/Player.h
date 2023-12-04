@@ -10,6 +10,7 @@ public:
 	int gold;
 	int totalWeight;
 	Player(Character c);
+	Player();
 	bool equipItem(const Item& item);
 	void displayInventory(int length);
 	void dropItem(int itemIndex);

@@ -17,6 +17,10 @@ Player::Player(Character c)
 	gold = 0;
 }
 
+Player::Player()
+{
+}
+
 bool Player::equipItem(const Item& item)
 {
 
