@@ -5,6 +5,14 @@ class Inventory {
 private:
 	std::vector<Item> items;
 
+/*
+* addItem(item)
+* Computes ...
+*
+* parameter: item
+* return: no return value
+*
+*/
 public:
 	void addItem(Item item) {
 		items.push_back(item);
