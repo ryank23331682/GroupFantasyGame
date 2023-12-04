@@ -97,7 +97,8 @@ int main()
 	return EXIT_SUCCESS;
 }
 
-static void InitialiseGameBoard(vector<vector<Square>>& game_board) {
+//Comment here
+static void PopulateGameBoard(vector<vector<Square>>& game_board) {
 
 	Weapon weapons[2] = {
 		Weapon("Sword", 10, 10),
