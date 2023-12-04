@@ -233,7 +233,7 @@ static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 	}
 	return validMove;
 }
-//Comment here
+
 
 /*
 * SquareInformation(Vector)
@@ -264,6 +264,16 @@ static void SquareInformation(vector<vector<Square>>& game_board) {
 }
 
 
+
+/*
+* GameOptions(Vector, player)
+* Computes current position, prompts the user to enter a direction command or the other rules of the game i.e. Attack, Pick up, Drop, Look, Inventory or Exit.
+* 
+* parameter: Player player
+* 
+* return: none
+* 
+*/
 void GameOptions(vector<vector<Square>> game_board, Player player)
 {
 	char userInput;
@@ -314,6 +324,16 @@ void GameOptions(vector<vector<Square>> game_board, Player player)
 	} while (userInput);
 }
 
+
+/*
+* perfromAttack(vector, player)
+* computes the outcome of attack on a character based on player's Health and items like shield etc.
+* 
+* parameters: Player& Player
+* 
+* return: None
+
+*/
 void performAttack(vector<vector<Square>>& game_board, Player& player)
 {
 	Square& currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
@@ -343,6 +363,15 @@ void performAttack(vector<vector<Square>>& game_board, Player& player)
 	}
 }
 
+/*
+* UpdateDayNight(vector)
+* computes Day to Night and Night to Day Mode based on the number of moves i.e. 5.
+* 
+* parameters: none
+* 
+* return: none.
+*/
+
 static void UpdateDayNight(vector<vector<Square>>& game_board) {
 
 	MOVECOUNTER++;
@@ -365,6 +394,16 @@ static void UpdateDayNight(vector<vector<Square>>& game_board) {
 		}
 	}
 }
+
+/*
+* pickUp(vector, player)
+* computes the item you the user can pick up based on the current square of the user and if this item in already in the inventory.
+* 
+* parameter: vector - holds current square position i.e. Row x Column position.
+*			 player - used in equipping an item.
+* 
+* return: none
+*/
 
 static void pickUp(vector<vector<Square>>& game_board, Player& player) {
 	Square& currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
