@@ -10,17 +10,41 @@ using namespace std;
 	{
 	}
 
+	/*
+	* Player::equipItem(item)
+	* Computes an Inventory Value
+	*
+	* parameter: Item
+	* return: no return value
+	*/
 	void Player::equipItem(const Item& item)
 	{
 		Inventory = new std::vector<Item>();
 		Inventory->push_back(item);
 	}
 
+	/*
+	* Player::calculateDamage()
+	* Returns 0
+	*
+	* parameter: none
+	* return: returns 0
+	*/
 	int Player::calculateDamage()
 	{
 		return 0;
 	}
 
+
+	/*
+	* Player::displayInventory(vector, length)
+	* Computes "Inventory" and callsa display infor on each item in the vector
+	*
+	* parameter: vector - 
+	*			 length - size of array
+	* 
+	* return:  none
+	*/
 	void Player::displayInventory(vector<Item>* inventory, int length)
 	{
 		cout << "Inventory:\n";
@@ -31,7 +55,15 @@ using namespace std;
 		}
 	}
 		
-
+	/*
+	* attack( defender, attacker)
+	* Computes the attackers chance based on the defender player.
+	*
+	* parameter: defender -
+	*			 attacker - 
+	*
+	* return:  boolean
+	*/
 	bool attack(Player& defender, Player& attacker) {
 		if (rand() % 100 < attacker.attackChance) {
 			if (!defender.defence) {
