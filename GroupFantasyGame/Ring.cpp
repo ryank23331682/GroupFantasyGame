@@ -2,6 +2,18 @@
 #include <string>
 #include <iostream>
 
+/*
+* Ring( name, weight, hBonus, sBonus, hPenalty)
+* Computes the strengthBonus, healthBonus and healthPenalty.
+*
+* parameter: name
+*			 weight
+*			 hBonus
+*			 sBonus
+*			 hPenalty
+*
+* return:  none
+*/
 Ring::Ring(std::string name, int weight, int hBonus, int sBonus, int hPenalty)
 	: Item(name, weight)
 {
