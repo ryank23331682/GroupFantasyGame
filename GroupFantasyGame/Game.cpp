@@ -22,7 +22,7 @@ Game::Game()
 	shields[0] = Shield("Large Shield", 30, 10, 5);
 	shields[1] = Shield("Small Shield", 10, 5, 0),
 
-	rings[0] = Ring("Ring of Life", 1, 10, 0, 0);
+		rings[0] = Ring("Ring of Life", 1, 10, 0, 0);
 	rings[1] = Ring("Ring of Strength", 1, 0, 50, 10);
 
 	characters[0] = Character("Human", 30, 20, 60, 100, 0.50, 0.67);
@@ -39,7 +39,7 @@ void Game::run()
 	gameOptions();
 }
 
-void Game::populateGameBoard() 
+void Game::populateGameBoard()
 {
 	random_device rd;
 	mt19937 gen(rd());
@@ -53,7 +53,7 @@ void Game::populateGameBoard()
 		for (int j = 0; j < column; ++j)
 		{
 			int randomValue = randomItemDist(gen);
-			if (randomValue == 0) 
+			if (randomValue == 0)
 			{
 				int randomEnemy = randomEnemyDist(gen);
 				Square square = Square(characters[randomEnemy]);
@@ -88,54 +88,54 @@ void Game::populateGameBoard()
 bool Game::makeMove(vector<vector<Square>>& game_board, char direction)
 {
 	bool validMove = false;
-	switch (direction) 
+	switch (direction)
 	{
-		case 'N':
-			if (currentRow == 0)
-			{
-				cout << "Cannot Move north from this position\n";
-			}
-			else
-			{
-				currentRow--;
-				validMove = true;
-			}
-			break;
+	case 'N':
+		if (currentRow == 0)
+		{
+			cout << "Cannot Move north from this position\n";
+		}
+		else
+		{
+			currentRow--;
+			validMove = true;
+		}
+		break;
 
-		case 'S':
-			if (currentRow == row - 1)
-			{
-				cout << "Cannot Move south from this position\n";
-			}
-			else
-			{
-				currentRow++;
-				validMove = true;
-			}
-			break;
+	case 'S':
+		if (currentRow == row - 1)
+		{
+			cout << "Cannot Move south from this position\n";
+		}
+		else
+		{
+			currentRow++;
+			validMove = true;
+		}
+		break;
 
-		case 'W':
-			if (currentColumn == 0)
-			{
-				cout << "Cannot Move West from this position\n";
-			}
-			else
-			{
-				currentColumn--;
-				validMove = true;
-			}
-			break;
-		case 'E':
-			if (currentColumn == column - 1)
-			{
-				cout << "Cannot Move East from this position\n";
-			}
-			else
-			{
-				currentColumn++;
-				validMove = true;
-			}
-			break;
+	case 'W':
+		if (currentColumn == 0)
+		{
+			cout << "Cannot Move West from this position\n";
+		}
+		else
+		{
+			currentColumn--;
+			validMove = true;
+		}
+		break;
+	case 'E':
+		if (currentColumn == column - 1)
+		{
+			cout << "Cannot Move East from this position\n";
+		}
+		else
+		{
+			currentColumn++;
+			validMove = true;
+		}
+		break;
 	}
 	return validMove;
 }
@@ -163,49 +163,49 @@ void Game::squareInformation(vector<vector<Square>>& game_board)
 void Game::gameOptions()
 {
 	char userInput;
-	do 
+	do
 	{
 		cout << "Current Position = (" << currentRow << ", " << currentColumn << ")\n";
 		cout << "Enter a command (N, W, S, E) or (A)ttack, (P)ick up, (D)rop, (L)ook, (I)nventroy, (Ex)it\n";
 		cin >> userInput;
 		cout << endl;
-		switch (userInput) 
+		switch (userInput)
 		{
-			case 'N':
-			case 'S':
-			case 'W':
-			case 'E':
-				if (makeMove(game_board, userInput))
-				{
-					updateDayNight(game_board, player);
-				}
-				break;
-			case 'A':
-				performAttack(game_board, player);
-				break;
+		case 'N':
+		case 'S':
+		case 'W':
+		case 'E':
+			if (makeMove(game_board, userInput))
+			{
+				updateDayNight(game_board, player);
+			}
+			break;
+		case 'A':
+			performAttack(game_board, player);
+			break;
 
-			case 'P':
-				pickUp(game_board, player);
-				break;
+		case 'P':
+			pickUp(game_board, player);
+			break;
 
-			case 'D':
-				drop(game_board, player);
-				break;
+		case 'D':
+			drop(game_board, player);
+			break;
 
-			case 'L':
-				squareInformation(game_board);
-				break;
+		case 'L':
+			squareInformation(game_board);
+			break;
 
-			case 'I':
-				player.displayInventory(inventoryCounter);
-				break;
+		case 'I':
+			player.displayInventory(inventoryCounter);
+			break;
 
-			case 'X':
-				exit(0);
+		case 'X':
+			exit(0);
 
-			default:
-				std::cout << "Invalid command. Please enter a, b, c, or q." << std::endl;
-				break;
+		default:
+			std::cout << "Invalid command. Please enter a, b, c, or q." << std::endl;
+			break;
 		}
 	} while (userInput);
 }
@@ -241,8 +241,8 @@ bool Game::performAttack(vector<vector<Square>>& game_board, Player& player)
 	if (currentSquare.hasEnemy && !(currentSquare.character.health <= 0))
 	{
 		Character& currentEnemy = currentSquare.character;
-		currentEnemy.health -= player.attackMove(currentEnemy);
-		player.health -= currentEnemy.attackMove(player);
+		currentEnemy.health -= player.attackMove(currentEnemy, isDay);
+		player.health -= currentEnemy.attackMove(player, isDay);
 		if (player.health <= 0)
 		{
 			return true;
