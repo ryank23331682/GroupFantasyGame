@@ -15,6 +15,12 @@ using namespace std;
  * @brief Implementation of the Player class.
  */
 
+ // Define a macro for the attack chance check
+#define ATTACK_CHANCE_CHECK(randomValue, chance) (randomValue < chance)
+
+// Define a macro for the defense chance check
+#define DEFENSE_CHANCE_CHECK(randomValue, chance) (randomValue < chance)
+
  /**
   * @brief Parameterized constructor for the Player class.
   *
@@ -238,7 +244,7 @@ int Character::defendMove(int& incomingDamage, bool ISDAY)
     std::uniform_real_distribution<> randomValueDist(0.0, 1.0);
     double randomValue = randomValueDist(gen);
 
-    if (randomValue < defenseChance)
+    if (DEFENSE_CHANCE_CHECK(randomValue, defenseChance))
     {
         // Successful defense
         int actualDamage = std::max(0, incomingDamage - defence);
@@ -276,7 +282,7 @@ int Character::attackMove(Character& enemy, bool isDay)
     std::uniform_real_distribution<> randomValueDist(0.0, 1.0);
     double randomValue = randomValueDist(gen);
 
-    if (randomValue < attackChance)
+    if (ATTACK_CHANCE_CHECK(randomValue, attackChance))
     {
         // Successful attack
         int damage = enemy.attack;

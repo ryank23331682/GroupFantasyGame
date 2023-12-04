@@ -17,6 +17,7 @@ Game::Game()
 	cin >> row;
 	cout << "Enter in the columns of the board\n";
 	cin >> column;
+
 	game_board = vector<vector<Square>>(row, vector<Square>(column));
 
 	weapons[0] = Weapon("Sword", 10, 10);
@@ -28,7 +29,7 @@ Game::Game()
 	shields[0] = Shield("Large Shield", 30, 10, 5);
 	shields[1] = Shield("Small Shield", 10, 5, 0),
 
-		rings[0] = Ring("Ring of Life", 1, 10, 0, 0);
+	rings[0] = Ring("Ring of Life", 1, 10, 0, 0);
 	rings[1] = Ring("Ring of Strength", 1, 0, 50, 10);
 
 	characters[0] = Character("Human", 30, 20, 60, 100, 0.50, 0.67);
@@ -54,17 +55,21 @@ void Game::run()
  */
 void Game::populateGameBoard()
 {
+	// Using random_device and mt19937 as needed more randomness then rand()
 	random_device rd;
 	mt19937 gen(rd());
 
+	// Setup of random integers
 	uniform_int_distribution<> randomEnemyDist(0, 4);
 	uniform_int_distribution<> randomItemTypeDist(0, 3);
 	uniform_int_distribution<> randomItemDist(0, 1);
 
+	// two for loops to iterate through a vector of vectors and populate the square objects.
 	for (int i = 0; i < row; ++i)
 	{
 		for (int j = 0; j < column; ++j)
 		{
+			// First randomValue to determine if square has weapon or item
 			int randomValue = randomItemDist(gen);
 			if (randomValue == 0)
 			{
@@ -72,8 +77,9 @@ void Game::populateGameBoard()
 				Square square = Square(characters[randomEnemy]);
 				game_board[i][j] = square;
 			}
-			else
+			else if (randomValue == 1)
 			{
+				// Another random to decide which item type to assign to square
 				int randomItemType = randomItemTypeDist(gen);
 				int randomItem = randomItemDist(gen);
 				switch (randomItemType) {
@@ -109,16 +115,22 @@ void Game::populateGameBoard()
 bool Game::makeMove(vector<vector<Square>>& game_board, char direction)
 {
 	bool validMove = false;
+
+	// Switch on direction and move through board with some error handling for the board dimensions
 	switch (direction)
 	{
 	case 'N':
+		// Check if currentRow == 0 as cannot move to position -1
 		if (currentRow == 0)
 		{
 			cout << "Cannot Move north from this position\n";
 		}
 		else
 		{
+			// Adjust the currentRow 
 			currentRow--;
+
+			// update valid Move to adjust time of day
 			validMove = true;
 		}
 		break;
@@ -130,7 +142,10 @@ bool Game::makeMove(vector<vector<Square>>& game_board, char direction)
 		}
 		else
 		{
+			// Adjust the currentRow 
 			currentRow++;
+
+			// update valid Move to adjust time of day
 			validMove = true;
 		}
 		break;
@@ -142,7 +157,10 @@ bool Game::makeMove(vector<vector<Square>>& game_board, char direction)
 		}
 		else
 		{
+			// Adjust the currentRow 
 			currentColumn--;
+
+			// update valid Move to adjust time of day
 			validMove = true;
 		}
 		break;
@@ -153,7 +171,10 @@ bool Game::makeMove(vector<vector<Square>>& game_board, char direction)
 		}
 		else
 		{
+			// Adjust the currentRow 
 			currentColumn++;
+
+			// update valid Move to adjust time of day
 			validMove = true;
 		}
 		break;
@@ -168,14 +189,18 @@ bool Game::makeMove(vector<vector<Square>>& game_board, char direction)
  */
 void Game::squareInformation(vector<vector<Square>>& game_board)
 {
+
+	// Get current square value from game board
 	Square currentSquare = game_board[currentRow][currentColumn];
 
+	// Check if current square has an enemy, if it does, display the info
 	if (currentSquare.hasEnemy)
 	{
 		Character currentEnemy = currentSquare.character;
 		cout << "This Square has an enemy with race: " << currentEnemy.race << ", attack: " << currentEnemy.attack
 			<< ", defense: " << currentEnemy.defence << ", health: " << currentEnemy.health << endl;
 	}
+	// Check if current square has an item, if it does, display the info
 	else if (currentSquare.item != nullptr)
 	{
 		currentSquare.item->displayInfo();
@@ -198,6 +223,8 @@ void Game::gameOptions()
 		cout << "Enter a command (N, W, S, E) or (A)ttack, (P)ick up, (D)rop, (L)ook, (I)nventroy, E(X)it\n";
 		cin >> userInput;
 		cout << endl;
+
+		// Switch on user input
 		switch (userInput)
 		{
 		case 'N':
@@ -211,6 +238,7 @@ void Game::gameOptions()
 			break;
 		case 'A':
 			performAttack(game_board, player);
+			updateDayNight(game_board, player);
 			break;
 
 		case 'P':
@@ -263,6 +291,7 @@ void Game::playerChoice()
 	std::cout << "Choose your character (1-5): ";
 	std::cin >> characterChoice;
 
+	// Set player based on user input
 	player = Player(characters[characterChoice - 1]);
 }
 
@@ -276,13 +305,22 @@ void Game::playerChoice()
  */
 bool Game::performAttack(vector<vector<Square>>& game_board, Player& player)
 {
+	// Get the current square
 	Square& currentSquare = game_board[currentRow][currentColumn];
 
+	// if the square has an enemy and it is not already dead
 	if (currentSquare.hasEnemy && !(currentSquare.character.health <= 0))
 	{
+		// We get the current enemy
 		Character& currentEnemy = currentSquare.character;
+
+		// the user will perform the first attack, then adjust the health of the enemy
 		currentEnemy.health -= player.attackMove(currentEnemy, isDay);
+
+		// the enemy will then attack, and the players health will be adjusted
 		player.health -= currentEnemy.attackMove(player, isDay);
+
+		// Check if the players health is < 0, if it is end the game
 		if (player.health <= 0)
 		{
 			return true;
@@ -309,17 +347,23 @@ bool Game::performAttack(vector<vector<Square>>& game_board, Player& player)
  */
 void Game::drop(vector<vector<Square>>& game_board, Player& player)
 {
+	// Get user input to drop an item
 	int itemIndex;
 	cout << "which item do you want to drop ? 1 - " << inventoryCounter << ": ";
 	cin >> itemIndex;
 
-	player.displayInventory(itemIndex);
-
-	player.dropItem(itemIndex - 1);
-	cout << "you dropped the item";
-	inventoryCounter--;
-
-	player.displayInventory(inventoryCounter);
+	// Handle an incorrect input 
+	if (itemIndex >= 0 && itemIndex <= inventoryCounter)
+	{
+		player.dropItem(itemIndex - 1);
+		cout << "you dropped the item" << endl;
+		inventoryCounter--;
+		player.displayInventory(itemIndex);
+	}
+	else
+	{
+		cout << "Item number is out or range" << endl;
+	}
 }
 
 /**
@@ -340,14 +384,20 @@ void Game::endGame(Player& player)
  */
 void Game::updateDayNight(vector<vector<Square>>& game_board, Player& player)
 {
+	// We update the counter and then check if the day is a multiple of 5
 	moveCounter++;
 	if (moveCounter % 5 == 0)
 	{
+		// Negate the isDay flag
 		isDay = !isDay;
+
+		// Update the player if they choose an orc
 		if (player.race == "Orc")
 		{
 			player.UpdateEnemyOnTimeOfDay(isDay);
 		}
+
+		// Check the game board and update all the orcs on the board
 		list<Character> enemies;
 		for (int i = 0; i < row; ++i)
 		{
@@ -370,11 +420,13 @@ void Game::updateDayNight(vector<vector<Square>>& game_board, Player& player)
  */
 void Game::pickUp(vector<vector<Square>>& game_board, Player& player)
 {
+	// Get the current square from the game board
 	Square& currentSquare = game_board[currentRow][currentColumn];
-	bool alreadyHasItem = currentSquare.item->hasItemType(*player.Inventory);
+
 	if (!currentSquare.hasEnemy && currentSquare.item != nullptr)
 	{
-		if (!alreadyHasItem)
+		// Check the item type of the item on the board compare to what's in the players inventory
+		if (!currentSquare.item->hasItemType(*player.Inventory))
 		{
 			player.equipItem(*(currentSquare.getItem()));
 			game_board[currentRow][currentColumn].item = nullptr;
