@@ -4,6 +4,12 @@
 #include <iostream>
 #include <iomanip>
 
+/**
+ * @brief Default constructor for the Game class.
+ *
+ * Initializes a Game object, prompting the user to set the dimensions of
+ * the game board and populating it with characters, items, and enemies.
+ */
 Game::Game()
 {
 	cout << "Welcome to our fantasy Game!\n";
@@ -32,6 +38,10 @@ Game::Game()
 	characters[4] = Character("Orc", 25, 10, 50, 130, 0.25, 0.25);
 }
 
+/**
+ * @brief Runs the game, calling methods to populate the game board and
+ * presenting the game options to the player.
+ */
 void Game::run()
 {
 	populateGameBoard();
@@ -39,6 +49,9 @@ void Game::run()
 	gameOptions();
 }
 
+/**
+ * @brief Populates the game board with characters, items, and enemies.
+ */
 void Game::populateGameBoard()
 {
 	random_device rd;
@@ -85,6 +98,14 @@ void Game::populateGameBoard()
 	}
 }
 
+/**
+ * @brief Moves the player on the game board in the specified direction.
+ *
+ * @param game_board The game board.
+ * @param direction The direction to move the player (N, W, S, or E).
+ *
+ * @return True if the move is valid, false otherwise.
+ */
 bool Game::makeMove(vector<vector<Square>>& game_board, char direction)
 {
 	bool validMove = false;
@@ -140,6 +161,11 @@ bool Game::makeMove(vector<vector<Square>>& game_board, char direction)
 	return validMove;
 }
 
+/**
+ * @brief Displays information about the current square on the game board.
+ *
+ * This function provides details about enemies, items, or an empty square.
+ */
 void Game::squareInformation(vector<vector<Square>>& game_board)
 {
 	Square currentSquare = game_board[currentRow][currentColumn];
@@ -160,13 +186,16 @@ void Game::squareInformation(vector<vector<Square>>& game_board)
 	}
 }
 
+/**
+ * @brief Presents game options to the player and processes their input.
+ */
 void Game::gameOptions()
 {
 	char userInput;
 	do
 	{
 		cout << "Current Position = (" << currentRow << ", " << currentColumn << ")\n";
-		cout << "Enter a command (N, W, S, E) or (A)ttack, (P)ick up, (D)rop, (L)ook, (I)nventroy, (Ex)it\n";
+		cout << "Enter a command (N, W, S, E) or (A)ttack, (P)ick up, (D)rop, (L)ook, (I)nventroy, E(X)it\n";
 		cin >> userInput;
 		cout << endl;
 		switch (userInput)
@@ -210,6 +239,9 @@ void Game::gameOptions()
 	} while (userInput);
 }
 
+/**
+ * @brief Allows the player to choose their character.
+ */
 void Game::playerChoice()
 {
 	int characterChoice;
@@ -234,6 +266,14 @@ void Game::playerChoice()
 	player = Player(characters[characterChoice - 1]);
 }
 
+/**
+ * @brief Performs an attack on an enemy if present on the current square.
+ *
+ * @param game_board The game board.
+ * @param player The player character.
+ *
+ * @return True if the player is defeated, false otherwise.
+ */
 bool Game::performAttack(vector<vector<Square>>& game_board, Player& player)
 {
 	Square& currentSquare = game_board[currentRow][currentColumn];
@@ -261,24 +301,43 @@ bool Game::performAttack(vector<vector<Square>>& game_board, Player& player)
 	return false;
 }
 
+/**
+ * @brief Drops an item from the player's inventory onto the current square.
+ *
+ * @param game_board The game board.
+ * @param player The player character.
+ */
 void Game::drop(vector<vector<Square>>& game_board, Player& player)
 {
 	int itemIndex;
-	cout << "which item do you want to drop ? 1 / 2/ 3 /4 /5";
+	cout << "which item do you want to drop ? 1 - " << inventoryCounter << ": ";
 	cin >> itemIndex;
+
 	player.displayInventory(itemIndex);
+
 	player.dropItem(itemIndex - 1);
-	cout << "you erased an item";
+	cout << "you dropped the item";
 	inventoryCounter--;
+
 	player.displayInventory(inventoryCounter);
 }
 
+/**
+ * @brief Ends the game, displaying the player's gold.
+ *
+ * @param player The player character.
+ */
 void Game::endGame(Player& player)
 {
 	cout << "Game Over!" << endl;
 	cout << "Player's Gold: " << player.gold << endl;
 }
 
+/**
+ * @brief Updates the time of day in the game and adjusts character stats.
+ *
+ * This function is called after a certain number of moves.
+ */
 void Game::updateDayNight(vector<vector<Square>>& game_board, Player& player)
 {
 	moveCounter++;
@@ -303,6 +362,12 @@ void Game::updateDayNight(vector<vector<Square>>& game_board, Player& player)
 	}
 }
 
+/**
+ * @brief Allows the player to pick up an item from the current square.
+ *
+ * @param game_board The game board.
+ * @param player The player character.
+ */
 void Game::pickUp(vector<vector<Square>>& game_board, Player& player)
 {
 	Square& currentSquare = game_board[currentRow][currentColumn];
