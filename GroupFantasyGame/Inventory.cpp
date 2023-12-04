@@ -10,6 +10,14 @@ public:
 		items.push_back(item);
 	}
 
+/*
+* DisplayInventory()
+* Computes on the terminal, the item name and item weight
+* 
+* parameter: none
+* return: no return value
+*
+*/
 	void displayInventory() {
 		std::cout << "Inventory:\n";
 		for (const auto& item : items) {
