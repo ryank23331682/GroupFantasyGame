@@ -13,7 +13,8 @@ Armour::Armour()
 	attackPenalty = 0;
 }
 
-void Armour::displayInfo() {
+void Armour::displayInfo() 
+{
 	std::cout << "Armour: " << name << ", Weight: " << weight << ", Defense Bonus: " << defenseBonus << ", Attack Penalty: " << attackPenalty << "\n";
 }
 string Armour::itemType()

@@ -17,7 +17,8 @@ Ring::Ring()
 	healthPenalty = 0;
 }
 
-void Ring::displayInfo() {
+void Ring::displayInfo()
+{
 	std::cout << "Ring: " << name << ", Weight: " << weight << ", Health Bonus: " << healthBonus << ", Strength Bonus: " << strengthBonus << ", Health Penalty: " << healthPenalty << "\n";
 }
 

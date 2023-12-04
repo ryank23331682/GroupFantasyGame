@@ -9,16 +9,19 @@ using namespace std;
 
 void Square::displayInfo()
 {
-    if (hasEnemy) {
-        cout << "This Square has an enemy with race: " << character.race
-            << ", attack: " << character.attack << ", defense: "
-            << character.defence << ", health: " << character.health << endl;
-    }
-    else if (item != nullptr) {
-        item->displayInfo();  // Use polymorphism to display item information
-    }
-    else {
-        cout << "This square is empty" << endl;
-    }
+	if (hasEnemy)
+	{
+		cout << "This Square has an enemy with race: " << character.race
+			<< ", attack: " << character.attack << ", defense: "
+			<< character.defence << ", health: " << character.health << endl;
+	}
+	else if (item != nullptr)
+	{
+		item->displayInfo();
+	}
+	else
+	{
+		cout << "This square is empty" << endl;
+	}
 }
 
