@@ -1,5 +1,6 @@
 // GroupFantasyGame.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+// Authors: Ryan Kelly, Lucas Paval Dommier, Kevin Chesser, Varad Lele, Divya Acharya
+// Date: 04.12.2023
 
 #include <iostream>
 #include <vector>
@@ -13,18 +14,22 @@
 #include "Player.h"
 using namespace std;
 
+//Declare Functions
 void PopulateGameBoard(vector<vector<Square>>& game_board);
 void MakeMove(vector<vector<Square>>& game_board, char direction);
 void SquareInformation(vector<vector<Square>>& game_board);
 void GameOptions(vector<vector<Square>> game_board);
 Player PlayerChoice();
 
+//Declare Row and Column for Board Dimensions
 int ROW;
 int COLUMN;
 int CURRENTROW = 0;
 int CURRENTCOLUMN = 0;
 bool ISDAY = true;
 int MOVECOUNTER = 0;
+
+//Declare Character Array
 Character characters[5] = {
 	Character("Human", 30, 20, 60, 100, 0.50, 0.67),
 	Character("Elf", 40, 10, 40, 70, 0.25, 1.00),
@@ -56,6 +61,14 @@ int main()
 	return EXIT_SUCCESS;
 }
 
+/*
+* PopulateGameBoard(vector)
+* Fills gameboard values based off item array i.e. Weapon,Armour, Shield etc.
+*
+* parameter: none
+* return: no return value
+*
+*/
 static void PopulateGameBoard(vector<vector<Square>>& game_board) {
 
 	Weapon weapons[2] = {
@@ -111,7 +124,15 @@ static void PopulateGameBoard(vector<vector<Square>>& game_board) {
 	}
 }
 
-//Comment Here
+/*
+* MakeMove(vector, direction)
+* This functions moves a space on the board depending on the input "N", "S", "W" and "E".
+*
+* parameter: char direction - direction "N", "S", "E", "W".
+*
+* return: validmove in boolean (True / False)
+*
+*/
 static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 	switch (direction) {
 	case 'N':
@@ -159,7 +180,16 @@ static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 		break;
 	}
 }
-//Comment here
+
+/*
+* SquareInformation(Vector)
+* computes whether the space has an enemey its race, abilities and special race abilities .... or if the space is empty.
+*
+* parameter: none
+*
+* return: none
+*
+*/
 static void SquareInformation(vector<vector<Square>>& game_board) {
 	Square currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
 
@@ -189,7 +219,16 @@ static void SquareInformation(vector<vector<Square>>& game_board) {
 		}
 	}
 }
-//Comment here
+
+/*
+* GameOptions(Vector, player)
+* Computes current position, prompts the user to enter a direction command or the other rules of the game i.e. Attack, Pick up, Drop, Look, Inventory or Exit.
+*
+* parameter: Player player
+*
+* return: none
+*
+*/
 void GameOptions(vector<vector<Square>> game_board)
 {
 	char userInput;
@@ -241,7 +280,15 @@ void GameOptions(vector<vector<Square>> game_board)
 	} while (userInput);
 }
 
-//Comment here
+/*
+* perfromAttack(vector, player)
+* computes the outcome of attack on a character based on player's Health and items like shield etc.
+*
+* parameters: Player& Player
+*
+* return: None
+
+*/
 Player PlayerChoice()
 {
 	int characterChoice;
@@ -259,7 +306,15 @@ Player PlayerChoice()
 	cin >> characterChoice;
 	return Player(characters[characterChoice - 1]);
 }
-//Comment here
+
+/*
+* UpdateDayNight(vector)
+* computes Day to Night and Night to Day Mode based on the number of moves i.e. 5.
+*
+* parameters: none
+*
+* return: none.
+*/
 static void UpdateDayNight(vector<vector<Square>>& game_board) {
 
 	MOVECOUNTER++;
@@ -283,6 +338,40 @@ static void UpdateDayNight(vector<vector<Square>>& game_board) {
 
 	}
 }
+
+/*
+* pickUp(vector, player)
+* computes the item you the user can pick up based on the current square of the user and if this item in already in the inventory.
+*
+* parameter: vector - holds current square position i.e. Row x Column position.
+*			 player - used in equipping an item.
+*
+* return: none
+*/
+
+static void pickUp(vector<vector<Square>>& game_board, Player& player) {
+	Square& currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
+	bool alreadyHasItem = currentSquare.item->hasItemType(*player.Inventory);
+	if (!currentSquare.hasEnemy && currentSquare.item != nullptr)
+	{
+		if (!alreadyHasItem)
+		{
+			player.equipItem(*(currentSquare.getItem()));
+			game_board[CURRENTROW][CURRENTCOLUMN].item = nullptr;
+			InventoryCounter++;
+		}
+		else
+		{
+			cout << "You already have this Item type in you're inventory!" << endl;
+		}
+	}
+	else
+	{
+		cout << "No Item to pick up" << endl;
+	}
+}
+
+
 
 
 
