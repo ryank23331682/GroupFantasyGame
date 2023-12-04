@@ -1,5 +1,9 @@
 // GroupFantasyGame.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// Authors: Ryan Kelly, Lucas Paval Dommier, Kevin Chesser, Varad Lele, Divya Acharya
+// Date: 04.12.2023
 //
+//
+
 
 #include <iostream>
 #include <vector>
@@ -13,18 +17,22 @@
 #include "Player.h"
 using namespace std;
 
+//declare functions
 void PopulateGameBoard(vector<vector<Square>>& game_board);
 void MakeMove(vector<vector<Square>>& game_board, char direction);
 void SquareInformation(vector<vector<Square>>& game_board);
 void GameOptions(vector<vector<Square>> game_board);
 Player PlayerChoice();
 
+//declare Row & Column for Board Game
 int ROW;
 int COLUMN;
 int CURRENTROW = 0;
 int CURRENTCOLUMN = 0;
 bool ISDAY = true;
 int MOVECOUNTER = 0;
+
+//declare array characters
 Character characters[5] = {
 	Character("Human", 30, 20, 60, 100, 0.50, 0.67),
 	Character("Elf", 40, 10, 40, 70, 0.25, 1.00),
@@ -32,6 +40,7 @@ Character characters[5] = {
 	Character("Hobbit", 25, 20, 70, 85, 0.67, 0.33),
 	Character("Orc", 25, 10, 50, 130, 0.25, 0.25),
 };
+
 int main()
 {
 	cout << "Welcome to our fantasy Game!\n";
@@ -56,6 +65,15 @@ int main()
 	return EXIT_SUCCESS;
 }
 
+//This Function Populates the BoardGame and does the following:
+/*
+* PopulateGameBoard(vector)
+* Populates the board game with random values based off items which are stored in arrays i.e. Weapons, armour etc.:
+* 
+* parameter: none
+* return: No return value.
+* 
+*/
 static void PopulateGameBoard(vector<vector<Square>>& game_board) {
 
 	Weapon weapons[2] = {
@@ -111,7 +129,15 @@ static void PopulateGameBoard(vector<vector<Square>>& game_board) {
 	}
 }
 
-//Comment Here
+//This Function Populates the BoardGame and does the following:
+/*
+* PopulateGameBoard(vector)
+* Populates the board game with random values based off items which are stored in arrays i.e. Weapons, armour etc.:
+*
+* parameter: none
+* return: No return value.
+*
+*/
 static void MakeMove(vector<vector<Square>>& game_board, char direction) {
 	switch (direction) {
 	case 'N':
