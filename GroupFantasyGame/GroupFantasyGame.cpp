@@ -24,10 +24,9 @@ void pickUp(vector<vector<Square>>& game_board, Player& player);
 void drop(vector<vector<Square>>& game_board, Player& player);
 void EndGame(Player& player);
 void UpdateDayNight(vector<vector<Square>>& game_board, Player& player);
-//bool hasItemType(const Item& item, const vector<Item>& Inventory);
 Player PlayerChoice();
 
-
+const int MAX_CHARACTERS = 5;
 int ROW;
 int COLUMN;
 int CURRENTROW = 0;
@@ -35,7 +34,7 @@ int CURRENTCOLUMN = 0;
 bool ISDAY = true;
 int MOVECOUNTER = 0;
 int InventoryCounter = 0;
-Character characters[5] = {
+Character characters[MAX_CHARACTERS] = {
 	Character("Human", 30, 20, 60, 100, 0.50, 0.67),
 	Character("Elf", 40, 10, 40, 70, 0.25, 1.00),
 	Character("Dwarf", 30, 20, 50, 130, 0.33, 0.67),
@@ -98,7 +97,7 @@ static void PopulateGameBoard(vector<vector<Square>>& game_board) {
 			{
 				int randomItemType = randomItemTypeDist(gen);
 				int randomItem = randomItemDist(gen);
-				switch (randomItemType) {
+				switch (0) {
 				case 0:
 					game_board[i][j] = Square(weapons[randomItem]);
 					break;
@@ -334,26 +333,26 @@ static void UpdateDayNight(vector<vector<Square>>& game_board, Player& player) {
 
 static void pickUp(vector<vector<Square>>& game_board, Player& player) {
 	Square& currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
-
-	if (!currentSquare.hasEnemy && currentSquare.item != nullptr) 
+	bool alreadyHasItem = currentSquare.item->hasItemType(*player.Inventory);
+	if (!currentSquare.hasEnemy && currentSquare.item != nullptr)
 	{
-		player.equipItem(*(currentSquare.getItem()));
-		game_board[CURRENTROW][CURRENTCOLUMN].item = nullptr;  
-		InventoryCounter++;
+		if (!alreadyHasItem)
+		{
+			player.equipItem(*(currentSquare.getItem()));
+			game_board[CURRENTROW][CURRENTCOLUMN].item = nullptr;
+			InventoryCounter++;
+		}
+		else
+		{
+			cout << "You already have this Item type in you're inventory!" << endl;
+		}
+	}
+	else
+	{
+		cout << "No Item to pick up" << endl;
 	}
 }
 
-bool hasItemType(const Item& item, const vector<Item>& Inventory) {
-	//for (const auto& inventoryItem : Inventory) {
-
-	//	if (derivedItem != nullptr && derivedItemOfItem != nullptr && *derivedItem == *derivedItemOfItem) {
-	//		// Item of the same type found in the inventory
-	//		return true;
-	//	}
-	//}
-	// Item type not found in the inventory
-	return false;
-}
 
 
 

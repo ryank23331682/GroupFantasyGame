@@ -16,3 +16,8 @@ Weapon::Weapon()
 void Weapon::displayInfo() {
 	cout << "Weapon: " << name << ", Weight: " << weight << ", Attack Bonus: " << attackBonus << "\n";
 }
+
+string Weapon::itemType()
+{
+	return "Weapon";
+}
