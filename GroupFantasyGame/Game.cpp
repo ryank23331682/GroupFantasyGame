@@ -216,6 +216,7 @@ void Game::squareInformation(vector<vector<Square>>& game_board)
  */
 void Game::gameOptions()
 {
+	bool gameOver = false;
 	char userInput;
 	do
 	{
@@ -237,7 +238,7 @@ void Game::gameOptions()
 			}
 			break;
 		case 'A':
-			performAttack(game_board, player);
+			gameOver = performAttack(game_board, player);
 			updateDayNight(game_board, player);
 			break;
 
@@ -264,7 +265,7 @@ void Game::gameOptions()
 			std::cout << "Invalid command. Please enter a, b, c, or q." << std::endl;
 			break;
 		}
-	} while (userInput);
+	} while (userInput && !gameOver);
 }
 
 /**
@@ -315,22 +316,28 @@ bool Game::performAttack(vector<vector<Square>>& game_board, Player& player)
 		Character& currentEnemy = currentSquare.character;
 
 		// the user will perform the first attack, then adjust the health of the enemy
-		currentEnemy.health -= player.attackMove(currentEnemy, isDay);
+		int damageinc = player.attackMove(currentEnemy, isDay);
+		currentEnemy.health -= damageinc;
+
+		if (currentEnemy.health <= 0)
+		{
+			cout << "Enemy Defeated, you gain 20 gold!" << endl;
+			player.gold += 20;
+			currentSquare.hasEnemy = false;
+			return false;
+		}
 
 		// the enemy will then attack, and the players health will be adjusted
-		player.health -= currentEnemy.attackMove(player, isDay);
+		int damage = currentEnemy.attackMove(player, isDay);
+		player.health -= damage;
 
 		// Check if the players health is < 0, if it is end the game
 		if (player.health <= 0)
 		{
-			return true;
 			endGame(player);
+			return true;
 		}
-		else if (currentEnemy.health <= 0)
-		{
-			cout << "Enemy Defeated, you gain 20 gold!" << endl;
-			player.gold += 20;
-		}
+
 	}
 	else
 	{
@@ -426,7 +433,7 @@ void Game::pickUp(vector<vector<Square>>& game_board, Player& player)
 	if (!currentSquare.hasEnemy && currentSquare.item != nullptr)
 	{
 		// Check the item type of the item on the board compare to what's in the players inventory
-		if (!currentSquare.item->hasItemType(*player.Inventory))
+		if (!currentSquare.item->hasItemType(*player.Inventory) || currentSquare.item->itemType() == "Ring")
 		{
 			player.equipItem(*(currentSquare.getItem()));
 			game_board[currentRow][currentColumn].item = nullptr;

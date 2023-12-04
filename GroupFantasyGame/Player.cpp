@@ -60,12 +60,14 @@ Player::Player()
  */
 bool Player::equipItem(const Item& item)
 {
+    // Check if the total weight and the added weight of the item exceeds the total weight of the player
     if (item.weight + totalWeight > strength)
     {
         return false;
     }
     else
     {
+        // Add to the total weight
         totalWeight += item.weight;
 
         // Check if the item is a Weapon, Armour, Ring, or Shield
@@ -74,26 +76,39 @@ bool Player::equipItem(const Item& item)
         const Ring* ringPtr = dynamic_cast<const Ring*>(&item);
         const Shield* shieldPtr = dynamic_cast<const Shield*>(&item);
 
+        // Checks to see which type of item it is
         if (weaponPtr != nullptr)
         {
+            //Push the item to inventory 
             Inventory->push_back(new Weapon(*weaponPtr));
+
+            // Update the attribute the item affects
             attack += weaponPtr->attackBonus;
         }
         if (armourPtr != nullptr)
         {
+            //Push the item to inventory 
             Inventory->push_back(new Armour(*armourPtr));
+
+            // Update the attribute the item affects
             defence += armourPtr->defenseBonus;
         }
         if (ringPtr != nullptr)
         {
+            //Push the item to inventory 
             Inventory->push_back(new Ring(*ringPtr));
+
+            // Update the attribute the item affects
             health += ringPtr->healthBonus;
             health -= ringPtr->healthPenalty;
             strength -= ringPtr->strengthBonus;
         }
         if (shieldPtr != nullptr)
         {
+            //Push the item to inventory 
             Inventory->push_back(new Shield(*shieldPtr));
+
+            // Update the attribute the item affects
             defence += shieldPtr->defenseBonus;
             attack -= shieldPtr->attackPenalty;
         }
@@ -206,6 +221,7 @@ void Player::displayPlayerProperties()
  */
 void Character::applySpecialAbilities(int& actualDamage, bool isDay)
 {
+    // If the race is human or dwarf update the attributes assocciated with its ability
 	if (race == "Human" || race == "Dwarf") {
 		health -= actualDamage;
 	}
@@ -249,7 +265,6 @@ int Character::defendMove(int& incomingDamage, bool ISDAY)
         // Successful defense
         int actualDamage = std::max(0, incomingDamage - defence);
         applySpecialAbilities(actualDamage, ISDAY);
-        health -= actualDamage;
 
         std::cout << race << " successfully defended. Damage reduced to " << actualDamage
             << ". Remaining health: " << health << std::endl;
@@ -259,7 +274,7 @@ int Character::defendMove(int& incomingDamage, bool ISDAY)
     else
     {
         std::cout << race << "'s defense failed. Incoming damage: " << incomingDamage << std::endl;
-        return 0;  // Defense failed
+        return incomingDamage;  // Defense failed
     }
 }
 
@@ -293,7 +308,7 @@ int Character::attackMove(Character& enemy, bool isDay)
                 << ". Damage: " << damage << std::endl;
         }
 
-        return actualDamage;  // Attack succeeded
+        return actualDamage; 
     }
     else
     {
