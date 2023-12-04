@@ -18,12 +18,22 @@ Character::Character(string race, int attack, int defence, int health, int stren
 	// Additional initialization code if needed
 }
 
-void UpdateEnemyOnTimeOfDay(Character character)
+void Character::UpdateEnemyOnTimeOfDay(bool isDay)
 {
-
-	character. attack = 45;
-	character.attackChance = 1.00;
-	character.defenseChance = 0.50;
+	if (isDay)
+	{
+		attack = 25;
+		defence = 10;
+		attackChance = 0.25;
+		defenseChance = 0.25;
+	}
+	else
+	{
+		attack = 45;
+		defence = 25;
+		attackChance = 1.00;
+		defenseChance = 0.50;
+	}
 
 }
 

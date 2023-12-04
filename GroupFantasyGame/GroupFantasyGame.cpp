@@ -6,8 +6,10 @@
 
 
 #include <iostream>
+#include <iomanip> 
 #include <vector>
 #include <string>
+#include <random>
 #include "Square.h"
 #include "Board.h"
 #include "Weapon.h"
@@ -17,22 +19,15 @@
 #include "Player.h"
 using namespace std;
 
-//declare functions
-void PopulateGameBoard(vector<vector<Square>>& game_board);
+void InitialiseGameBoard(vector<vector<Square>>& game_board);
 void MakeMove(vector<vector<Square>>& game_board, char direction);
 void SquareInformation(vector<vector<Square>>& game_board);
-void GameOptions(vector<vector<Square>> game_board);
-Player PlayerChoice();
-
-//declare Row & Column for Board Game
 int ROW;
 int COLUMN;
 int CURRENTROW = 0;
 int CURRENTCOLUMN = 0;
 bool ISDAY = true;
 int MOVECOUNTER = 0;
-
-//declare array characters
 Character characters[5] = {
 	Character("Human", 30, 20, 60, 100, 0.50, 0.67),
 	Character("Elf", 40, 10, 40, 70, 0.25, 1.00),
@@ -52,173 +47,6 @@ int main()
 	PopulateGameBoard(game_board);
 
 	Player player = PlayerChoice();
-
-	// Test to hardcode a Item into Inventory, For LuLu ;)
-	int InventoryCounter = 1;
-	player.equipItem(Weapon("Sword", 10, 10));
-
-	// you can use displayInventory to check if youve added stuff to inventory properly
-	player.displayInventory(player.Inventory, InventoryCounter);
-
-	GameOptions(game_board);
-
-	return EXIT_SUCCESS;
-}
-
-//This Function Populates the BoardGame and does the following:
-/*
-* PopulateGameBoard(vector)
-* Populates the board game with random values based off items which are stored in arrays i.e. Weapons, armour etc.:
-* 
-* parameter: none
-* return: No return value.
-* 
-*/
-static void PopulateGameBoard(vector<vector<Square>>& game_board) {
-
-	Weapon weapons[2] = {
-		Weapon("Sword", 10, 10),
-		Weapon("Dagger", 5, 5)
-	};
-	Armour armours[2] = {
-		Armour("Plate Armour", 40, 10, 5),
-		Armour("Leather Armour", 20, 0, 5),
-	};
-	Shield shields[2] = { 
-		Shield("Large Shield", 30, 10, 5),
-		Shield("Small Shield", 10, 5, 0),
-	};
-	Ring rings[2] = {
-	Ring("Ring of Life", 1, 10, 0, 0),
-	Ring("Ring of Strength", 1, 0, 50, 10),
-	};
-
-	for (int i = 0; i < ROW; ++i)
-	{
-		for (int j = 0; j < COLUMN; ++j)
-		{
-			int randomValue = rand() % 2;
-			if (randomValue == 0) {
-				int randomEnemy = rand() % 5;
-				Square square = Square(characters[randomEnemy]);
-				game_board[i][j] = square;
-			}
-			else 
-			{
-				int randomItemType = rand() % 4;
-				int randomItem = rand() % 2;
-				switch (randomItemType) {
-				case 0:
-					game_board[i][j] = Square(weapons[randomItem]);
-					break;
-
-				case 1:
-					game_board[i][j] = Square(armours[randomItem]);
-					break;
-
-				case 2:
-					game_board[i][j] = Square(shields[randomItem]);
-					break;
-
-				case 3:
-					game_board[i][j] = Square(rings[randomItem]);
-					break;
-				}
-			}
-		}
-	}
-}
-
-//This Function Populates the BoardGame and does the following:
-/*
-* PopulateGameBoard(vector)
-* Populates the board game with random values based off items which are stored in arrays i.e. Weapons, armour etc.:
-*
-* parameter: none
-* return: No return value.
-*
-*/
-static void MakeMove(vector<vector<Square>>& game_board, char direction) {
-	switch (direction) {
-	case 'N':
-		if (CURRENTROW == 0)
-		{
-			cout << "Cannot Move north from this position\n";
-		}
-		else
-		{
-			CURRENTROW--;
-		}
-		break;
-
-	case 'S':
-		if (CURRENTROW == ROW -1)
-		{
-			cout << "Cannot Move south from this position\n";
-		}
-		else
-		{
-			CURRENTROW++;
-		}
-		break;
-
-	case 'W':
-		if (CURRENTCOLUMN == 0)
-		{
-			cout << "Cannot Move West from this position\n";
-		}
-		else
-		{
-			CURRENTCOLUMN--;
-		}
-		break;
-
-	case 'E':
-		if (CURRENTCOLUMN == COLUMN -1)
-		{
-			cout << "Cannot Move East from this position\n";
-		}
-		else
-		{
-			CURRENTCOLUMN++;
-		}
-		break;
-	}
-}
-//Comment here
-static void SquareInformation(vector<vector<Square>>& game_board) {
-	Square currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
-
-	if (currentSquare.hasEnemy)
-	{
-		Character currentEnemy = currentSquare.character;
-		cout << "This Square has an enemy with race: " << currentEnemy.race << ", attack: " << currentEnemy.attack
-			<< ", defense: " << currentEnemy.defence << ", health: " << currentEnemy.health << endl;
-	}
-	if (currentSquare.hasItem)
-	{
-		if (currentSquare.hasArmour) 
-		{
-			currentSquare.armour.displayInfo();
-		} 
-		else if (currentSquare.hasWeapon)
-		{
-			currentSquare.weapon.displayInfo();
-		}
-		else if (currentSquare.hasRing)
-		{
-			currentSquare.ring.displayInfo();
-		}
-		else if (currentSquare.hasShield)
-		{
-			currentSquare.shield.displayInfo();
-		}
-	}
-}
-//Comment here
-void GameOptions(vector<vector<Square>> game_board)
-{
-	char userInput;
 
 	do {
 		cout << "Current Position = (" << CURRENTROW << ", " << CURRENTCOLUMN << ")\n";
@@ -265,50 +93,267 @@ void GameOptions(vector<vector<Square>> game_board)
 			break;
 		}
 	} while (userInput);
+
+	return EXIT_SUCCESS;
 }
 
-//Comment here
-Player PlayerChoice()
-{
-	int characterChoice;
+static void InitialiseGameBoard(vector<vector<Square>>& game_board) {
 
-	for (Character character : characters) {
-		cout << "Race: " << character.race << "\n";
-		cout << "Attack: " << character.attack << "\n";
-		cout << "Defense: " << character.defence << "\n";
-		cout << "Health: " << character.health << "\n";
-		cout << "Strength: " << character.strength << "\n";
-		cout << "Defense Chance: " << character.defenseChance << "\n";
-		cout << "Attack Chance: " << character.attackChance << "\n\n";
+	Weapon weapons[2] = {
+		Weapon("Sword", 10, 10),
+		Weapon("Dagger", 5, 5)
+	};
+	Armour armours[2] = {
+		Armour("Plate Armour", 40, 10, 5),
+		Armour("Leather Armour", 20, 0, 5),
+	};
+	Shield shields[2] = {
+		Shield("Large Shield", 30, 10, 5),
+		Shield("Small Shield", 10, 5, 0),
+	};
+	Ring rings[2] = {
+	Ring("Ring of Life", 1, 10, 0, 0),
+	Ring("Ring of Strength", 1, 0, 50, 10),
+	};
+	random_device rd;
+	mt19937 gen(rd());
+
+	uniform_int_distribution<> randomEnemyDist(0, 4);
+	uniform_int_distribution<> randomItemTypeDist(0, 3);
+	uniform_int_distribution<> randomItemDist(0, 1);
+
+	for (int i = 0; i < ROW; ++i)
+	{
+		for (int j = 0; j < COLUMN; ++j)
+		{
+			int randomValue = randomItemDist(gen);
+			if (randomValue == 0) {
+				int randomEnemy = randomEnemyDist(gen);
+				Square square = Square(characters[randomEnemy]);
+				game_board[i][j] = square;
+			}
+			else
+			{
+				int randomItemType = randomItemTypeDist(gen);
+				int randomItem = randomItemDist(gen);
+				switch (0) {
+				case 0:
+					game_board[i][j] = Square(weapons[randomItem]);
+					break;
+
+				case 1:
+					game_board[i][j] = Square(armours[randomItem]);
+					break;
+
+				case 2:
+					game_board[i][j] = Square(shields[randomItem]);
+					break;
+
+				case 3:
+					game_board[i][j] = Square(rings[randomItem]);
+					break;
+				}
+			}
+		}
 	}
-	cout << "Choose youre character (1-5): ";
-	cin >> characterChoice;
-	return Player(characters[characterChoice - 1]);
+}
+
+static void MakeMove(vector<vector<Square>>& game_board, char direction) {
+	switch (direction) {
+	case 'N':
+		if (CURRENTROW == 0)
+		{
+			cout << "Cannot Move north from this position\n";
+		}
+		else
+		{
+			CURRENTROW--;
+			validMove = true;
+		}
+		break;
+
+	case 'S':
+		if (CURRENTROW == ROW - 1)
+		{
+			cout << "Cannot Move south from this position\n";
+		}
+		else
+		{
+			CURRENTROW++;
+			validMove = true;
+		}
+		break;
+
+	case 'W':
+		if (CURRENTCOLUMN == 0)
+		{
+			cout << "Cannot Move West from this position\n";
+		}
+		else
+		{
+			CURRENTCOLUMN--;
+			validMove = true;
+		}
+		break;
+
+	case 'E':
+		if (CURRENTCOLUMN == COLUMN - 1)
+		{
+			cout << "Cannot Move East from this position\n";
+		}
+		else
+		{
+			CURRENTCOLUMN++;
+			validMove = true;
+		}
+		break;
+	}
+	return validMove;
 }
 //Comment here
+static void SquareInformation(vector<vector<Square>>& game_board) {
+	Square currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
+
+	if (currentSquare.hasEnemy)
+	{
+		Character currentEnemy = currentSquare.character;
+		cout << "This Square has an enemy with race: " << currentEnemy.race << ", attack: " << currentEnemy.attack
+			<< ", defense: " << currentEnemy.defence << ", health: " << currentEnemy.health << endl;
+	}
+	else if(currentSquare.item != nullptr)
+	{
+		currentSquare.item->displayInfo();
+	}
+	else
+	{
+		cout << "This square is empty" << endl;
+	}
+}
+
+void GameOptions(vector<vector<Square>> game_board, Player player)
+{
+	char userInput;
+
+	do {
+		cout << "Current Position = (" << CURRENTROW << ", " << CURRENTCOLUMN << ")\n";
+		cout << "Enter a command (N, W, S, E) or (A)ttack, (P)ick up, (D)rop, (L)ook, (I)nventroy, (Ex)it\n";
+		cin >> userInput;
+		cout << endl;
+		switch (userInput) {
+		case 'N':
+		case 'S':
+		case 'W':
+		case 'E':
+			if(MakeMove(game_board, userInput))
+			{
+				UpdateDayNight(game_board, player);
+			}
+			break;
+		case 'A':
+			performAttack(game_board, player);
+			break;
+
+		case 'P':
+			pickUp(game_board, player);
+			break;
+
+		case 'D':
+			drop(game_board, player);
+			break;
+
+		case 'L':
+			SquareInformation(game_board);
+			break;
+
+		case 'I':
+			player.displayInventory(InventoryCounter);
+			break;
+
+		case 'X':
+			exit(0);
+
+		default:
+			// Code for handling invalid input
+			std::cout << "Invalid command. Please enter a, b, c, or q." << std::endl;
+			break;
+		}
+	} while (userInput);
+}
+
+void performAttack(vector<vector<Square>>& game_board, Player& player)
+{
+	Square& currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
+
+	if (currentSquare.hasEnemy && !(currentSquare.character.health <= 0))
+	{
+		Character& currentEnemy = currentSquare.character;
+		currentEnemy.health -= player.attackMove(currentEnemy);
+		player.health -= currentEnemy.attackMove(player);
+		if (player.health <= 0) 
+		{
+			EndGame(player);
+		}
+		else if (currentEnemy.health <= 0) 
+		{
+			cout << "Enemy Defeated, you gain 20 gold!" << endl;
+			player.gold += 20;
+		}
+		else if (currentSquare.hasRing)
+		{
+			currentSquare.ring.displayInfo();
+		}
+		else if (currentSquare.hasShield)
+		{
+			currentSquare.shield.displayInfo();
+		}
+	}
+}
+
 static void UpdateDayNight(vector<vector<Square>>& game_board) {
 
 	MOVECOUNTER++;
 	if (MOVECOUNTER % 5 == 0) {
 		ISDAY = !ISDAY;
-	}
-
-	if (!ISDAY)
-	{
+		if (player.race == "Orc")
+		{
+			player.UpdateEnemyOnTimeOfDay(ISDAY);
+		}
 		list<Character> enemies;
 		for (int i = 0; i < ROW; ++i)
 		{
 			for (int j = 0; j < COLUMN; ++j)
 			{
-				if (game_board[ROW][COLUMN].hasEnemy && game_board[ROW][COLUMN].character.race == "Orc") 
+				if (game_board[i][j].hasEnemy && game_board[i][j].character.race == "Orc")
 				{
-					game_board[ROW][COLUMN].character.UpdateEnemyOnTimeOfDay(game_board[ROW][COLUMN].character);
+					game_board[i][j].character.UpdateEnemyOnTimeOfDay(ISDAY);
 				}
 			}
 		}
-
 	}
 }
+
+static void pickUp(vector<vector<Square>>& game_board, Player& player) {
+	Square& currentSquare = game_board[CURRENTROW][CURRENTCOLUMN];
+	bool alreadyHasItem = currentSquare.item->hasItemType(*player.Inventory);
+	if (!currentSquare.hasEnemy && currentSquare.item != nullptr)
+	{
+		if (!alreadyHasItem)
+		{
+			player.equipItem(*(currentSquare.getItem()));
+			game_board[CURRENTROW][CURRENTCOLUMN].item = nullptr;
+			InventoryCounter++;
+		}
+		else
+		{
+			cout << "You already have this Item type in you're inventory!" << endl;
+		}
+	}
+	else
+	{
+		cout << "No Item to pick up" << endl;
+	}
+}
+
 
 
 

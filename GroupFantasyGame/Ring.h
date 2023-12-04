@@ -9,5 +9,6 @@ public:
 	Ring(std::string name, int weight, int hBonus, int sBonus, int hPenalty);
 	Ring();
 	void displayInfo();
+	string itemType();
 };
 

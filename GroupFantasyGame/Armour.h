@@ -8,5 +8,6 @@ public:
 	Armour(std::string name, int weight, int dBonus, int aPenalty);
 	Armour();
 	void displayInfo();
+	string itemType();
 };
 

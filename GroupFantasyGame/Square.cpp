@@ -1,25 +1,24 @@
-#include "Character.h"
 #include "Item.h"
 #include "Armour.h"
 #include "Ring.h"
 #include "Weapon.h"
 #include "Square.h"
 #include <stdlib.h>
+#include <iostream>
+using namespace std;
 
-Square::Square(Character c)
-    : character(c), weapon(), hasItem(false), hasEnemy(true), hasArmour(false), hasShield(false), hasWeapon(false), hasRing(false) {}
+void Square::displayInfo()
+{
+    if (hasEnemy) {
+        cout << "This Square has an enemy with race: " << character.race
+            << ", attack: " << character.attack << ", defense: "
+            << character.defence << ", health: " << character.health << endl;
+    }
+    else if (item != nullptr) {
+        item->displayInfo();  // Use polymorphism to display item information
+    }
+    else {
+        cout << "This square is empty" << endl;
+    }
+}
 
-Square::Square(Weapon w)
-    : weapon(w), character(), hasItem(true), hasEnemy(false), hasArmour(false), hasShield(false), hasWeapon(true), hasRing(false) {}
-
-Square::Square(Shield s)
-    : shield(s), character(), hasItem(true), hasEnemy(false), hasArmour(false), hasShield(true), hasWeapon(false), hasRing(false) {}
-
-Square::Square(Armour a)
-    : armour(a), character(), hasItem(true), hasEnemy(false), hasArmour(true), hasShield(false), hasWeapon(false), hasRing(false) {}
-
-Square::Square(Ring r)
-    : ring(r), character(), hasItem(true), hasEnemy(false), hasArmour(false), hasShield(false), hasWeapon(false), hasRing(true) {}
-
-Square::Square()
-    : weapon(), character(), hasItem(false), hasEnemy(false), hasArmour(false), hasShield(false), hasWeapon(false), hasRing(false) {}

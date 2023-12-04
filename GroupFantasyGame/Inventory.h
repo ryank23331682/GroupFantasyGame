@@ -15,7 +15,7 @@ public:
 	void displayInventory() {
 		cout << "Inventory:\n";
 		for (const auto& item : items) {
-			std::cout << "Name: " << item.name << ", Category: " << item.category << ", Weight: " << item.weight << "\n";
+			std::cout << "Name: " << item.name <<  ", Weight: " << item.weight << "\n";
 		}
 	}
 

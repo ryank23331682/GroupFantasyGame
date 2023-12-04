@@ -8,5 +8,6 @@ public:
 	Shield(std::string name, int weight, int dBonus, int aPenalty);
 	Shield();
 	void displayInfo();
+	string itemType();
 };
 

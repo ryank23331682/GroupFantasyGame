@@ -7,5 +7,6 @@ public:
 	Weapon(string name, int weight, int attackBonus);
 	Weapon();
 	void displayInfo();
+	string itemType();
 };
-
+ 
